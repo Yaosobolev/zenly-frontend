@@ -71,20 +71,20 @@ module.exports = {
             transform: "translate(0px, 0px) scale(1)",
           },
           "25%": {
-            transform: "translate(100px, -100px) scale(1.1)", // + r, + d
+            transform: "translate(70px, -70px) scale(1.1)", // + r, + d
           },
           "50%": {
-            transform: "translate(0px, 100px) scale(0.9)",
+            transform: "translate(0px, 70px) scale(0.9)",
           },
           "75%": {
-            transform: "translate(-100px, 100px) scale(0.9)",
+            transform: "translate(-70px, 70px) scale(0.9)",
           },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        blob: "blob 6s  infinite",
+        blob: "blob 7s  infinite",
       },
     },
   },
