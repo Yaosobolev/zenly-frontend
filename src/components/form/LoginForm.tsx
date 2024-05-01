@@ -2,21 +2,45 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  username: z
+    .string()
+    .min(1, {
+      message: "Нужно заполнить поле.",
+    })
+    .min(4, {
+      message: "Имя пользователя должно состоять минимум из 4 символов.",
+    })
+    .max(40, {
+      message: "Имя пользователя должно состоять максимум из 40 символов.",
+    })
+    .regex(/^[a-zA-Z0-9_]{4,40}$/, {
+      message:
+        "Имя пользователя должно состоять только из латинских букв, цифр и знака подчеркивания.",
+    }),
+  password: z
+    .string()
+    .min(1, {
+      message: "Нужно ввести пароль.",
+    })
+    .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
+    .max(40, {
+      message: "Пароль должен состоять максимум из 40 символов.",
+    })
+    .regex(/^[a-zA-Z0-9_]{4,40}$/, {
+      message:
+        "Пароль должен состоять только из латинских букв, цифр и знака подчеркивания.",
+    }),
 });
 
 const LoginForm = () => {
@@ -24,32 +48,59 @@ const LoginForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
+      password: "",
     },
   });
 
-  const onSubmit = () => {
-    console.log("form submitted");
+  const onSubmit = (data: z.infer<typeof FormSchema>) => {
+    console.log(data);
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 ">
+        <div className="space-y-6">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="Введите имя пользователя" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="Введите ваш пароль"
+                    isPassword={true}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            className="w-full h-14 bg-green-500   text-lg rounded-xl  hover:bg-green-600"
+            type="submit"
+          >
+            Войти
+          </Button>
+        </div>
+        <p className=" text-center text-muted-foreground mt-2">
+          Нету аккаунта?{" "}
+          <Link to="/register" className="text-green-500 hover:text-green-600">
+            Зарегистрируйтесь
+          </Link>
+        </p>
       </form>
     </Form>
   );

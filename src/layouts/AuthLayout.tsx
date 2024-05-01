@@ -46,8 +46,8 @@ const AuthLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
           </div>
 
           <div className=" w-1/2  flex">
-            <div className="w-full py-16 rounded-3xl bg-white text-center">
-              {children}
+            <div className="w-full py-16 rounded-3xl bg-white ">
+              <div className=" flex flex-col items-center">{children}</div>
             </div>
           </div>
         </div>
