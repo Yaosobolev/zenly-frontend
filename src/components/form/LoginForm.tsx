@@ -57,7 +57,10 @@ const LoginForm = () => {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 ">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-2/3 max-700:w-full"
+      >
         <div className="space-y-6">
           <FormField
             control={form.control}
@@ -95,7 +98,7 @@ const LoginForm = () => {
             Войти
           </Button>
         </div>
-        <p className=" text-center text-muted-foreground mt-2">
+        <p className=" text-center text-muted-foreground mt-2 max-550:text-sm">
           Нету аккаунта?{" "}
           <Link to="/register" className="text-green-500 hover:text-green-600">
             Зарегистрируйтесь

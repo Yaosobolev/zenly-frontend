@@ -17,6 +17,19 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        "max-400": { raw: "(max-width: 400px)" },
+        "max-550": { raw: "(max-width: 550px)" },
+        "max-700": { raw: "(max-width: 700px)" },
+        "max-991": { raw: "(max-width: 991px)" },
+        "max-lg": { raw: "(max-width: 1024px)" },
+        "max-1185": { raw: "(max-width: 1185px)" },
+
+        "screen-h-sm": { raw: "(max-height: 640px)" },
+        "screen-h-md": { raw: "(max-height: 868px)" },
+        "screen-h-lg": { raw: "(max-height: 1024px)" },
+        "screen-h-xl": { raw: "(max-height: 1280px)" },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
