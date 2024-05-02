@@ -125,15 +125,18 @@ const RegistrationForm = () => {
             )}
           />
           <Button
-            className="w-full h-14 bg-green-500   text-lg rounded-xl  hover:bg-green-600"
+            className="w-full h-14 bg-green-500 text-lg rounded-xl hover:bg-green-600"
             type="submit"
           >
             Создать
           </Button>
         </div>
-        <p className=" text-center text-muted-foreground mt-2 max-550:text-sm">
+        <p className="text-center text-muted-foreground mt-2 max-550:text-sm">
           Уже есть аккаунт?{" "}
-          <Link to="/login" className="text-green-500 hover:text-green-600">
+          <Link
+            to="/login"
+            className="text-green-500 transition-all hover:text-green-600 hover:underline"
+          >
             Авторизуйтесь
           </Link>
         </p>

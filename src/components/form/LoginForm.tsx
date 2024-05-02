@@ -92,15 +92,18 @@ const LoginForm = () => {
             )}
           />
           <Button
-            className="w-full h-14 bg-green-500   text-lg rounded-xl  hover:bg-green-600"
+            className="w-full h-14 bg-green-500 text-lg rounded-xl hover:bg-green-600"
             type="submit"
           >
             Войти
           </Button>
         </div>
-        <p className=" text-center text-muted-foreground mt-2 max-550:text-sm">
+        <p className="text-center text-muted-foreground mt-2 max-550:text-sm">
           Нету аккаунта?{" "}
-          <Link to="/register" className="text-green-500 hover:text-green-600">
+          <Link
+            to="/register"
+            className="text-green-500 transition-all hover:text-green-600 hover:underline"
+          >
             Зарегистрируйтесь
           </Link>
         </p>
