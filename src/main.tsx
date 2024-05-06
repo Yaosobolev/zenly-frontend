@@ -9,6 +9,7 @@ import Registration from "./pages/auth/Registration.tsx";
 import AuthLayout from "./layouts/AuthLayout.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
 
@@ -19,8 +20,8 @@ const router = createBrowserRouter([
     errorElement: <h1>Ошибка</h1>,
     children: [
       {
-        path: "",
-        element: <Home />,
+        path: "/",
+        element: <ProtectedRoute element={<Home />} />,
       },
 
       {
@@ -47,7 +48,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
+      {/* <Routes> */}
       <RouterProvider router={router} />
+      {/* </Routes> */}
     </QueryClientProvider>
   </React.StrictMode>
 );
