@@ -1,6 +1,6 @@
 import { User } from "@/types";
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist, createJSONStorage } from "zustand/middleware";
 
 type AuthStore = {
   user: User | null;
@@ -10,12 +10,18 @@ type AuthStore = {
 };
 
 const useAuthStore = create<AuthStore>()(
-  devtools((set) => ({
-    user: null,
-    isAuthenticated: false,
-    setUser: (user) => set(() => ({ user, isAuthenticated: !!user })),
-    logout: () => set(() => ({ user: null, isAuthenticated: false })),
-  }))
+  persist(
+    devtools((set) => ({
+      user: null,
+      isAuthenticated: false,
+      setUser: (user) => set(() => ({ user, isAuthenticated: !!user })),
+      logout: () => set(() => ({ user: null, isAuthenticated: false })),
+    })),
+    {
+      name: "user",
+      storage: createJSONStorage(() => sessionStorage),
+    }
+  )
 );
 
 export default useAuthStore;

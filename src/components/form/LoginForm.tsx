@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { useLogin } from "@/hooks/useAuth";
+import { useLogin } from "@/api/hooks/useAuth";
 
 const FormSchema = z.object({
   username: z.string(),
