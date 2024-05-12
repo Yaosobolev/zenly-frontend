@@ -53,7 +53,6 @@ const LoginForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
     loginMutation.mutate(data);
   };
   return (

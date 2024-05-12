@@ -11,46 +11,44 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import { useRegister } from "@/api/hooks/useAuth";
 
 const FormSchema = z
   .object({
-    username: z
-      .string()
-      .min(1, {
-        message: "Нужно заполнить поле.",
-      })
-      .min(4, {
-        message: "Имя пользователя должно состоять минимум из 4 символов.",
-      })
-      .max(40, {
-        message: "Имя пользователя должно состоять максимум из 40 символов.",
-      })
-      .regex(/^[a-zA-Z0-9_]{4,40}$/, {
-        message:
-          "Имя пользователя должно состоять только из латинских букв, цифр и знака подчеркивания.",
-      }),
-    password: z
-      .string()
-      .min(1, {
-        message: "Нужно ввести пароль.",
-      })
-      .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
-      .max(40, {
-        message: "Пароль должен состоять максимум из 40 символов.",
-      })
-      .regex(/^[a-zA-Z0-9_]{4,40}$/, {
-        message:
-          "Пароль должен состоять только из латинских букв, цифр и знака подчеркивания.",
-      }),
-    confirmPassword: z
-      .string()
-      .min(1, {
-        message: "Нужно подтвердить пароль.",
-      })
-      .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
-      .max(40, {
-        message: "Пароль должен состоять максимум из 40 символов.",
-      }),
+    username: z.string(),
+    // .min(1, {
+    //   message: "Нужно заполнить поле.",
+    // })
+    // .min(4, {
+    //   message: "Имя пользователя должно состоять минимум из 4 символов.",
+    // })
+    // .max(40, {
+    //   message: "Имя пользователя должно состоять максимум из 40 символов.",
+    // })
+    // .regex(/^[a-zA-Z0-9_]{4,40}$/, {
+    //   message:
+    //     "Имя пользователя должно состоять только из латинских букв, цифр и знака подчеркивания.",
+    // }),
+    password: z.string(),
+    // .min(1, {
+    //   message: "Нужно ввести пароль.",
+    // })
+    // .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
+    // .max(40, {
+    //   message: "Пароль должен состоять максимум из 40 символов.",
+    // })
+    // .regex(/^[a-zA-Z0-9_]{4,40}$/, {
+    //   message:
+    //     "Пароль должен состоять только из латинских букв, цифр и знака подчеркивания.",
+    // }),
+    confirmPassword: z.string(),
+    // .min(1, {
+    //   message: "Нужно подтвердить пароль.",
+    // })
+    // .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
+    // .max(40, {
+    //   message: "Пароль должен состоять максимум из 40 символов.",
+    // }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -58,6 +56,7 @@ const FormSchema = z
   });
 
 const RegistrationForm = () => {
+  const registerMutation = useRegister();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -68,7 +67,7 @@ const RegistrationForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+    registerMutation.mutate(data);
   };
   return (
     <Form {...form}>
