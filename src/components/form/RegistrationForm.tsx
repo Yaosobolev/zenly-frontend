@@ -12,6 +12,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useRegister } from "@/api/hooks/useAuth";
+import { useState } from "react";
+import { InputDataErrorState } from "@/types";
 
 const FormSchema = z
   .object({
@@ -56,6 +58,10 @@ const FormSchema = z
   });
 
 const RegistrationForm = () => {
+  const [errorBackend, setErrorBackend] = useState<InputDataErrorState>({
+    status: 0,
+    message: "",
+  });
   const registerMutation = useRegister();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

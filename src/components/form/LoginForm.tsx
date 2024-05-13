@@ -12,38 +12,48 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useLogin } from "@/api/hooks/useAuth";
+import { useState } from "react";
+import { InputDataError, InputDataErrorState } from "@/types";
 
 const FormSchema = z.object({
-  username: z.string(),
-  // .min(1, {
-  //   message: "Нужно заполнить поле.",
-  // })
-  // .min(4, {
-  //   message: "Имя пользователя должно состоять минимум из 4 символов.",
-  // })
-  // .max(40, {
-  //   message: "Имя пользователя должно состоять максимум из 40 символов.",
-  // })
-  // .regex(/^[a-zA-Z0-9_]{4,40}$/, {
-  //   message:
-  //     "Имя пользователя должно состоять только из латинских букв, цифр и знака подчеркивания.",
-  // }),
-  password: z.string(),
-  // .min(1, {
-  //   message: "Нужно ввести пароль.",
-  // })
-  // .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
-  // .max(40, {
-  //   message: "Пароль должен состоять максимум из 40 символов.",
-  // })
-  // .regex(/^[a-zA-Z0-9_]{4,40}$/, {
-  //   message:
-  //     "Пароль должен состоять только из латинских букв, цифр и знака подчеркивания.",
-  // }),
+  username: z
+    .string()
+    .min(1, {
+      message: "Нужно заполнить поле.",
+    })
+    .min(4, {
+      message: "Имя пользователя должно состоять минимум из 4 символов.",
+    })
+    .max(40, {
+      message: "Имя пользователя должно состоять максимум из 40 символов.",
+    })
+    .regex(/^[a-zA-Z0-9_]{4,40}$/, {
+      message:
+        "Имя пользователя должно состоять только из латинских букв, цифр и знака подчеркивания.",
+    }),
+
+  password: z
+    .string()
+    .min(1, {
+      message: "Нужно ввести пароль.",
+    })
+    .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
+    .max(40, {
+      message: "Пароль должен состоять максимум из 40 символов.",
+    })
+    .regex(/^[a-zA-Z0-9_]{4,40}$/, {
+      message:
+        "Пароль должен состоять только из латинских букв, цифр и знака подчеркивания.",
+    }),
 });
 
 const LoginForm = () => {
+  const [errorBackend, setErrorBackend] = useState<InputDataErrorState>({
+    status: 0,
+    message: "",
+  });
   const loginMutation = useLogin();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -52,9 +62,19 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    loginMutation.mutate(data);
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      const res = await loginMutation.mutateAsync(data);
+      console.log(res);
+    } catch (error: unknown) {
+      const customError = error as InputDataError;
+      setErrorBackend({
+        status: customError.response?.status,
+        message: customError.response?.data?.message,
+      });
+    }
   };
+
   return (
     <Form {...form}>
       <form
@@ -71,7 +91,9 @@ const LoginForm = () => {
                   <Input placeholder="Введите имя пользователя" {...field} />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage>
+                  {errorBackend.status === 409 && errorBackend.message}
+                </FormMessage>
               </FormItem>
             )}
           />
@@ -87,7 +109,9 @@ const LoginForm = () => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage>
+                  {errorBackend.status === 401 && errorBackend.message}
+                </FormMessage>
               </FormItem>
             )}
           />

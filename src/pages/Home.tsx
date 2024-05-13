@@ -9,7 +9,7 @@ const Home: React.FC = () => {
           zoom: 18,
           controls: [],
         }}
-        className="h-screen "
+        className="h-screen"
       >
         <Placemark geometry={[51.785112, 55.10018]} />
       </Map>
