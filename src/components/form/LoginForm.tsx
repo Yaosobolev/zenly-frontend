@@ -26,10 +26,6 @@ const FormSchema = z.object({
     })
     .max(40, {
       message: "Имя пользователя должно состоять максимум из 40 символов.",
-    })
-    .regex(/^[a-zA-Z0-9_]{4,40}$/, {
-      message:
-        "Имя пользователя должно состоять только из латинских букв, цифр и знака подчеркивания.",
     }),
 
   password: z
@@ -40,10 +36,6 @@ const FormSchema = z.object({
     .min(8, { message: "Пароль должен состоять минимум из 8 символов." })
     .max(40, {
       message: "Пароль должен состоять максимум из 40 символов.",
-    })
-    .regex(/^[a-zA-Z0-9_]{4,40}$/, {
-      message:
-        "Пароль должен состоять только из латинских букв, цифр и знака подчеркивания.",
     }),
 });
 
@@ -64,8 +56,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      const res = await loginMutation.mutateAsync(data);
-      console.log(res);
+      await loginMutation.mutateAsync(data);
     } catch (error: unknown) {
       const customError = error as InputDataError;
       setErrorBackend({
