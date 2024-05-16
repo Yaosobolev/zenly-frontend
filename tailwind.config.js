@@ -31,6 +31,7 @@ module.exports = {
         "screen-h-xl": { raw: "(max-height: 1280px)" },
       },
       colors: {
+        sidebar: "#333333",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
