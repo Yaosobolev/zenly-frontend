@@ -1,21 +1,39 @@
-import { PiUserCircleFill } from "react-icons/pi";
 import { FaCheck } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
 import { Button } from "./button";
+import { IconType } from "react-icons/lib";
+import useSidebarStore from "@/store/sidebarStore";
 
-const CardUser = () => {
+type CardUserProps = {
+  avatar: IconType;
+  name: string;
+};
+
+const CardUser: React.FC<CardUserProps> = ({ avatar: Avatar, name }) => {
+  const { isCollapsed } = useSidebarStore();
+
   return (
-    <div className="flex items-center justify-between w-full px-3 py-3 cursor-pointer ">
-      <div className="flex  items-center gap-2">
-        <PiUserCircleFill className="size-7" />
-        <span className="text-xs font-normal">Max Jhon</span>
+    <div className="flex items-center justify-between w-full px-3 py-3 cursor-pointer">
+      <div className="flex items-center gap-2">
+        <Avatar className="size-8  min-w-8" />
+        <span
+          className={
+            isCollapsed
+              ? "absolute right-48 opacity-0"
+              : "text-xs font-normal transition-all delay-500"
+          }
+        >
+          {name}
+        </span>
       </div>
-      <div className="flex gap-2">
-        <Button className="p-2 bg-green-900 size-7">
-          <FaCheck />
-        </Button>
-        <Button className="p-2 bg-red-900 size-7">
+      <div
+        className={isCollapsed ? "absolute right-48 opacity-0" : "flex gap-2 "}
+      >
+        <Button className="p-2 bg-white-900 size-7 border rounded-full text-blue-500 hover:bg-gray-50">
           <FaTimes />
+        </Button>
+        <Button className="p-2 bg-blue-500 size-7 rounded-full hover:bg-blue-600 ">
+          <FaCheck />
         </Button>
       </div>
     </div>

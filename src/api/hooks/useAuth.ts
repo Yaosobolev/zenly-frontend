@@ -68,3 +68,19 @@ export const useMe = (userId?: string) => {
 
   return meQuery;
 };
+
+export const useLogout = () => {
+  const setUser = useAuthStore((state) => state.setUser);
+
+  const logoutMutation = useMutation({
+    mutationFn: authService.logout,
+    onSuccess: () => {
+      setUser(null);
+    },
+    onError: (error: Error) => {
+      console.log(error);
+    },
+  });
+
+  return logoutMutation;
+};

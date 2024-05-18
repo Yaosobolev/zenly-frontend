@@ -28,8 +28,8 @@ export const authService = {
     }
   },
 
-  // logout: async () => {
-  //   const response = await axios.post(`${API_URL}/logout`);
-  //   return response.data;
-  // },
+  logout: () => {
+    const response = instance.post<string>(`/auth/logout`);
+    return response;
+  },
 };
