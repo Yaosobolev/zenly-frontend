@@ -13,7 +13,7 @@ export type UserError = {
   };
 };
 
-export type LoginData = {
+export type InputData = {
   username: string;
   password: string;
 };
@@ -29,20 +29,4 @@ export type InputDataError = {
 export type InputDataErrorState = {
   status?: number;
   message?: string;
-};
-
-export type friendship = {
-  senderId: string;
-  receiverId: string;
-};
-
-export type friendshipReauest = {
-  message: string;
-  requestId?: {
-    id: number;
-    senderId: string;
-    receiverId: string;
-    status: string;
-    createdAt: string;
-  };
 };

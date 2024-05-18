@@ -1,11 +1,11 @@
-import { LoginData, User } from "@/types";
+import { InputData, User } from "@/types/auth";
 import { AxiosResponse } from "axios";
 import instance from "../config";
 
 // login and register одинаковые, так как в будущем планируется дополнить поля регистрации!!!
 
 export const authService = {
-  login: async (loginData: LoginData): Promise<AxiosResponse<User>> => {
+  login: async (loginData: InputData): Promise<AxiosResponse<User>> => {
     const response = await instance.post<User>(`/auth/login`, {
       username: loginData.username,
       password: loginData.password,
@@ -13,7 +13,7 @@ export const authService = {
     return response;
   },
 
-  register: async (loginData: LoginData): Promise<AxiosResponse<User>> => {
+  register: async (loginData: InputData): Promise<AxiosResponse<User>> => {
     const response = await instance.post<User>(`/auth/register`, {
       username: loginData.username,
       password: loginData.password,

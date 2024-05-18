@@ -13,16 +13,14 @@ import Layout from "./layouts/Layout.tsx";
 
 const queryClient = new QueryClient();
 
+// const socket = io.("")
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <h1>Ошибка</h1>,
     children: [
-      // {
-      //   path: "/:userId",
-      //   element: <ProtectedRoute element={<Home />} />,
-      // },
       {
         path: "/:userId",
         element: (
@@ -56,9 +54,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      {/* <Routes> */}
       <RouterProvider router={router} />
-      {/* </Routes> */}
     </QueryClientProvider>
   </React.StrictMode>
 );

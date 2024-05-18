@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useLogin } from "@/api/hooks/useAuth";
 import { useState } from "react";
-import { InputDataError, InputDataErrorState } from "@/types";
+import { InputDataError, InputDataErrorState } from "@/types/auth";
 
 const FormSchema = z.object({
   username: z.string(),

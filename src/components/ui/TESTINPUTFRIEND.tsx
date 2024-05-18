@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button } from "./button";
 import { useSendRequestToFriend } from "@/api/hooks/useFriendship";
-import io from "socket.io-client";
 import { useEffect } from "react";
+import { socket } from "@/api/config";
 
-const socket = io("http://localhost:3000");
+// const socket = io("http://localhost:3000");
+
 export const TestInputFriend = () => {
   const sendRequestToFriendMutation = useSendRequestToFriend();
 
@@ -12,7 +13,6 @@ export const TestInputFriend = () => {
     senderId: "",
     receiverId: "",
   });
-
   const [res, setRes] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,60 +26,21 @@ export const TestInputFriend = () => {
     sendRequestToFriendMutation.mutate(data);
 
     console.log(data);
-    // Здесь можно выполнить действия с сохраненными значениями input1 и input2
   };
 
   useEffect(() => {
-    socket.on("friend-request", (data) => {
-      setRes(data.text);
+    socket.on("friend-requests", (data) => {
+      setRes(data);
     });
   }, [socket]);
 
-  //   useEffect(() => {
-  //     // Создаем экземпляр сокета и подключаемся к серверу
-  //     const socket = io("http://localhost:3000", {
-  //       transports: ["websocket"], // указываем использовать WebSocket
-  //     }); // Замените адресом вашего сервера и портом
-  //     socket.emit("connection", { message: "Hello, server!" });
-
-  //     // Определяем обработчик для получения сообщений от сервера
-  //     socket.on("friendRequest", (data) => {
-  //       console.log("Received new message from server:", data);
-  //     });
-
-  //     // Функция для очистки соединения при размонтировании компонента
-  //     return () => {
-  //       socket.disconnect();
-  //     };
-  //   }, []);
-
-  //Room State
-  // const [room, setRoom] = useState("");
-
-  // Messages States
-  // const [message, setMessage] = useState("");
-  // const [messageReceived, setMessageReceived] = useState("");
-
-  // // const joinRoom = () => {
-  // //   if (room !== "") {
-  // //     socket.emit("join_room", room);
-  // //   }
-  // // };
-
-  // const sendMessage = () => {
-  //   socket.emit("send_message", { message });
-  // };
-
-  // useEffect(() => {
-  //   socket.on("receive_message", (data) => {
-  //     setMessageReceived(data.message);
-  //   });
-  // }, [socket]);
+  console.log(res);
+  console.log(socket);
 
   return (
     <form onClick={handleSubmit}>
-      {/* <div>
-      <input
+      <div>
+        {/* <input
         onChange={(event) => {
           setMessage(event.target.value);
         }}
@@ -90,7 +51,8 @@ export const TestInputFriend = () => {
           setRoom(event.target.value);
         }}
         type="text"
-      /> */}
+      />{" "} */}
+      </div>
       <input
         name="senderId"
         value={senderId}
