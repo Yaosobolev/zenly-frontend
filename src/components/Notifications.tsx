@@ -79,11 +79,11 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
               <CarouselItem>
                 {requests.length > 0 ? (
                   requests.map((request, index) => (
-                    <>
+                    <div key={index} className="w-full ">
                       <CardUser
                         avatar={PiUserCircleFill}
-                        key={index}
-                        name={request.sender.username}
+                        // name={request.sender.username}
+                        data={request}
                       />
                       <Line
                         className={
@@ -92,13 +92,21 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
                             : "hidden"
                         }
                       />
-                    </>
+                    </div>
                   ))
                 ) : (
                   //! ДОБАВИТЬ НОРМ 404
                   <div>Заявки не поступали </div>
                 )}
               </CarouselItem>
+              {/* <CarouselItem>
+                <CardUser
+                  avatar={PiUserCircleFill}
+                  // name="{request.sender.username}"
+
+                />
+                <Line className={`border-[0.2px] my-0`} />
+              </CarouselItem> */}
             </CarouselContent>
           </div>
         </div>

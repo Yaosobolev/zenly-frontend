@@ -1,3 +1,13 @@
+export type User = {
+  id: number;
+  username: string;
+  location?: unknown | null;
+};
+export type sendRequestToFriendData = {
+  receiverId: string;
+  senderId?: string;
+};
+
 export type friendship = {
   request?: {
     id: number;
@@ -8,17 +18,9 @@ export type friendship = {
 
 export type friendshipRequest = {
   id: number;
-  sender: {
-    id: number;
-    username: string;
-  };
+  sender: User;
 };
 
 export interface friendshipRequests {
   data: friendshipRequest[] | [];
 }
-
-export type sendFriendshipRequest = {
-  receiverId: string;
-  senderId?: string;
-};

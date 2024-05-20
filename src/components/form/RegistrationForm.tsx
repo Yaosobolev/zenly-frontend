@@ -18,7 +18,7 @@ import { InputDataError, InputDataErrorState } from "@/types/auth";
 const FormSchema = z
   .object({
     username: z.string(),
-    // .regex(/^[a-zA-Z0-9_]{4,40}$/, {
+    // .regex(/^[a-zA-Z0-9_]{4,20}$/, {
     //   message:
     //     "Имя пользователя должно состоять только из латинских букв, цифр и знака подчеркивания.",
     // }),

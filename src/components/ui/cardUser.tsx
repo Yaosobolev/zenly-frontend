@@ -4,17 +4,37 @@ import { Button } from "./button";
 import { IconType } from "react-icons/lib";
 import useSidebarStore from "@/store/sidebarStore";
 import { useWindowWidth } from "@react-hook/window-size";
+import {
+  useAcceptFriendRequest,
+  useRejectFriendRequest,
+} from "@/api/hooks/useFriendship";
+import { friendshipRequest } from "@/types/friendship";
 
 type CardUserProps = {
   avatar: IconType;
-  name: string;
+  // name: string;
+  data: friendshipRequest;
 };
 
-const CardUser: React.FC<CardUserProps> = ({ avatar: Avatar, name }) => {
+type MutateFunction = {
+  mutate: (id: number) => void;
+};
+
+const CardUser: React.FC<CardUserProps> = ({ avatar: Avatar, data }) => {
   const { isCollapsed } = useSidebarStore();
 
   const onlyWidth = useWindowWidth();
   const mobileWidth: boolean = onlyWidth < 768;
+
+  const acceptFriendRequestMutation = useAcceptFriendRequest();
+  const rejectFriendRequestMutation = useRejectFriendRequest();
+
+  const onSubmit = (func: MutateFunction) => () => {
+    console.log(data.id);
+    func.mutate(data.id);
+  };
+
+  // const removeNotitfation = () => {};
 
   return (
     <div className="flex items-center justify-between w-full px-3 py-3 cursor-pointer">
@@ -27,7 +47,7 @@ const CardUser: React.FC<CardUserProps> = ({ avatar: Avatar, name }) => {
               : "text-xs font-normal transition-all delay-500"
           }
         >
-          {name}
+          {data.sender.username}
         </span>
       </div>
       <div
@@ -37,10 +57,16 @@ const CardUser: React.FC<CardUserProps> = ({ avatar: Avatar, name }) => {
             : " flex gap-2  "
         }
       >
-        <Button className="p-2 bg-white-900 size-7 border rounded-full text-blue-500 hover:bg-gray-50">
+        <Button
+          onClick={onSubmit(rejectFriendRequestMutation)}
+          className="p-2 bg-white-900 size-7 border rounded-full text-blue-500 hover:bg-gray-50"
+        >
           <FaTimes />
         </Button>
-        <Button className="p-2 bg-blue-500 size-7 rounded-full hover:bg-blue-600 ">
+        <Button
+          onClick={onSubmit(acceptFriendRequestMutation)}
+          className="p-2 bg-blue-500 size-7 rounded-full hover:bg-blue-600 "
+        >
           <FaCheck />
         </Button>
       </div>

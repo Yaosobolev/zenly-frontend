@@ -2,14 +2,14 @@ import {
   friendshipRequest,
   friendshipRequests,
   // friendshipRequests,
-  sendFriendshipRequest,
+  sendRequestToFriendData,
 } from "@/types/friendship";
 import { AxiosResponse } from "axios";
 import instance from "../config";
 
 export const friendshipService = {
   sendRequestToFriend: async (
-    requestData: sendFriendshipRequest
+    requestData: sendRequestToFriendData
   ): Promise<AxiosResponse<friendshipRequest>> => {
     const response = await instance.post<friendshipRequest>(
       `/friendship/send-friend-request/${requestData.senderId}`,
@@ -25,6 +25,26 @@ export const friendshipService = {
   ): Promise<AxiosResponse<friendshipRequests>> => {
     const response = await instance.get<friendshipRequests>(
       `/friendship/requests/${userId}`
+    );
+    return response;
+  },
+
+  acceptFriendRequest: async (
+    requestId: number
+  ): Promise<AxiosResponse<friendshipRequest>> => {
+    const response = await instance.post<friendshipRequest>(
+      "/friendship/accept-request",
+      { requestId: requestId }
+    );
+    return response;
+  },
+
+  rejectFriendRequest: async (
+    requestId: number
+  ): Promise<AxiosResponse<friendshipRequest>> => {
+    const response = await instance.post<friendshipRequest>(
+      "/friendship/reject-request",
+      { requestId: requestId }
     );
     return response;
   },

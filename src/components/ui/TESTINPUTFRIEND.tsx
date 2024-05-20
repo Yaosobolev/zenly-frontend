@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { Button } from "./button";
 import { useSendRequestToFriend } from "@/api/hooks/useFriendship";
-import { useEffect } from "react";
-import { connectToSocket } from "@/api/config";
+
 import { useParams } from "react-router-dom";
-import { friendshipRequest, sendFriendshipRequest } from "@/types/friendship";
+import { sendRequestToFriendData } from "@/types/friendship";
 
 export const TestInputFriend = () => {
   const sendRequestToFriendMutation = useSendRequestToFriend();
 
   const { userId } = useParams();
 
-  const [data, setData] = useState<sendFriendshipRequest>({
+  const [data, setData] = useState<sendRequestToFriendData>({
     receiverId: "",
     senderId: "",
   });
+  // added socket to getRequests and post to accept/reject request
   // const [res, setRes] = useState<friendshipRequest>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,21 +25,15 @@ export const TestInputFriend = () => {
   };
   const { receiverId } = data;
 
-  const handleSubmit = (e: React.ClickEvent<HTMLInputElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => () => {
     e.preventDefault();
     sendRequestToFriendMutation.mutate(data);
   };
 
-  useEffect(() => {
-    connectToSocket(Number(userId)).on("friend-requests", (data) => {
-      // setRes(data);
-    });
-
-    // return () => {
-    //   connectToSocket(Number(userId)).disconnect();
-    //   console.log("disc");
-    // };
-  }, [connectToSocket]);
+  // return () => {
+  //   connectToSocket(Number(userId)).disconnect();
+  //   console.log("disc");
+  // };
 
   // console.log(res);
 
