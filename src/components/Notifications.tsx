@@ -13,7 +13,7 @@ import Line from "./ui/line";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetFriendRequests } from "@/api/hooks/useFriendship";
-import { friendshipRequest, friendshipRequests } from "@/types/friendship";
+import { friendshipRequest } from "@/types/friendship";
 import { connectToSocket } from "@/api/config";
 
 interface NotificationsProps {
@@ -21,33 +21,36 @@ interface NotificationsProps {
 }
 
 const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
-  const handleRequest = (data: friendshipRequest) => {
-    setRequests((prev) => prev.concat(data));
+  const [requests, setRequests] = useState<friendshipRequest[]>([]);
+
+  const { userId } = useParams<{ userId: string }>();
+  const userIdString: string = userId as string;
+  const { isLoading, data } = useGetFriendRequests(userIdString);
+
+  const handleRequest = (data: { data: friendshipRequest }) => {
+    setRequests((prev) => prev.concat(data.data));
   };
 
-  const { userId } = useParams();
-
-  const userIdString: string = userId as string;
-
-  const { isLoading, data } = useGetFriendRequests(userIdString);
-  console.log("db", data);
+  useEffect(() => {
+    if (data) {
+      setRequests([...data]);
+    }
+  }, [data]);
 
   useEffect(() => {
-    connectToSocket(Number(userId)).on(
-      "friend-requests",
-      (data: friendshipRequest) => {
-        console.log("socket", data);
-        handleRequest(data);
-      }
-    );
-  }, [connectToSocket]);
+    const socket = connectToSocket(Number(userId));
 
-  const [requests, setRequests] = useState<friendshipRequest[]>(data);
+    socket.on("friend-requests", handleRequest);
+    return () => {
+      socket.off("friend-requests", handleRequest);
+    };
+  }, [connectToSocket]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
+  console.log("requests", requests);
   return (
     <div className="max-h-64 ">
       <Carousel className="h-full relative">
@@ -74,44 +77,28 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
           <div className={"bg-white rounded-2xl  h-full "}>
             <CarouselContent className="h-full">
               <CarouselItem>
-                {requests.length > 0
-                  ? requests.map((request, id) => (
+                {requests.length > 0 ? (
+                  requests.map((request, index) => (
+                    <>
                       <CardUser
                         avatar={PiUserCircleFill}
+                        key={index}
                         name={request.sender.username}
-                        key={id}
                       />
-                    ))
-                  : data.length > 0 &&
-                    data.map((item: friendshipRequest, id: number) => (
-                      <CardUser
-                        avatar={PiUserCircleFill}
-                        name={item.sender.username}
-                        key={id}
+                      <Line
+                        className={
+                          index < requests.length - 1
+                            ? `border-[0.2px] my-0`
+                            : "hidden"
+                        }
                       />
-                    ))}
-                <CardUser avatar={PiUserCircleFill} name="Max jhon" />
-
-                <Line className="border-[0.2px] my-0" />
+                    </>
+                  ))
+                ) : (
+                  //! ДОБАВИТЬ НОРМ 404
+                  <div>Заявки не поступали </div>
+                )}
               </CarouselItem>
-              {/* <CarouselItem>
-                <CardUser avatar={PiUserCircleFill} name="Josie Parks" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Marc Allison" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Ricky Oliver" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Mayme Sparks" />
-              </CarouselItem>
-              <CarouselItem>
-                <CardUser avatar={PiUserCircleFill} name="Francisco Horton" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Gavin Rowe" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Alfred Hill" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Rosie Conner" />
-              </CarouselItem> */}
             </CarouselContent>
           </div>
         </div>

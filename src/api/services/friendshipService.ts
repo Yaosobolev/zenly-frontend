@@ -1,6 +1,7 @@
 import {
   friendshipRequest,
   friendshipRequests,
+  // friendshipRequests,
   sendFriendshipRequest,
 } from "@/types/friendship";
 import { AxiosResponse } from "axios";

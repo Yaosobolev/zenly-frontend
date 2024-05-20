@@ -7,26 +7,15 @@ export type friendship = {
 };
 
 export type friendshipRequest = {
-  // data?: {
   id: number;
-  sender?: {
+  sender: {
     id: number;
     username: string;
   };
-  // };
 };
-// export type friendshipRequest = {
-//   data?: {
-//     id: number;
-//     sender: {
-//       id: number;
-//       username: string;
-//     };
-//   };
-// };
 
 export interface friendshipRequests {
-  data: friendshipRequest[] | null;
+  data: friendshipRequest[] | [];
 }
 
 export type sendFriendshipRequest = {

@@ -30,7 +30,7 @@ export const useGetFriendRequests = (userId: string) => {
         console.log(error);
       }
     },
-    initialData: [],
+    // initialData: [],
   });
 
   return getFriendRequestsQueary;
