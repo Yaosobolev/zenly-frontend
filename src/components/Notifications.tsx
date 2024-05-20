@@ -10,29 +10,43 @@ import { PiUserCircleFill } from "react-icons/pi";
 import CardUser from "./ui/cardUser";
 import Line from "./ui/line";
 
-import io from "socket.io-client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useGetFriendRequests } from "@/api/hooks/useFriendship";
+import { friendshipRequest, friendshipRequests } from "@/types/friendship";
+import { connectToSocket } from "@/api/config";
 
 interface NotificationsProps {
   isCollapsed: boolean;
 }
 
 const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
-  //   useEffect(() => {
-  //     // Создаем экземпляр сокета и подключаемся к серверу
-  //     const socket = io("http://localhost:3000"); // Замените адресом вашего сервера и портом
-  //     socket.emit("friendRequest", { message: "Hello, server!" });
+  const handleRequest = (data: friendshipRequest) => {
+    setRequests((prev) => prev.concat(data));
+  };
 
-  //     // Определяем обработчик для получения сообщений от сервера
-  //     socket.on("friendRequest", (data) => {
-  //       console.log("Received new message from server:", data);
-  //     });
+  const { userId } = useParams();
 
-  //     // Функция для очистки соединения при размонтировании компонента
-  //     return () => {
-  //       socket.disconnect();
-  //     };
-  //   }, []);
+  const userIdString: string = userId as string;
+
+  const { isLoading, data } = useGetFriendRequests(userIdString);
+  console.log("db", data);
+
+  useEffect(() => {
+    connectToSocket(Number(userId)).on(
+      "friend-requests",
+      (data: friendshipRequest) => {
+        console.log("socket", data);
+        handleRequest(data);
+      }
+    );
+  }, [connectToSocket]);
+
+  const [requests, setRequests] = useState<friendshipRequest[]>(data);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="max-h-64 ">
@@ -50,25 +64,37 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
               className={
                 isCollapsed
                   ? "absolute right-28 opacity-0"
-                  : `flex items-center transition-all delay-700 `
+                  : `flex items-center transition-all delay-700`
               }
             >
-              <CarouselPrevious variant="nav" className="-translate-y-0 " />
+              <CarouselPrevious variant="nav" className="-translate-y-0" />
               <CarouselNext variant="nav" className="-translate-y-0" />
             </div>
           </div>
-          <div className="bg-white rounded-2xl  h-full ">
+          <div className={"bg-white rounded-2xl  h-full "}>
             <CarouselContent className="h-full">
               <CarouselItem>
+                {requests.length > 0
+                  ? requests.map((request, id) => (
+                      <CardUser
+                        avatar={PiUserCircleFill}
+                        name={request.sender.username}
+                        key={id}
+                      />
+                    ))
+                  : data.length > 0 &&
+                    data.map((item: friendshipRequest, id: number) => (
+                      <CardUser
+                        avatar={PiUserCircleFill}
+                        name={item.sender.username}
+                        key={id}
+                      />
+                    ))}
                 <CardUser avatar={PiUserCircleFill} name="Max jhon" />
+
                 <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Nell Chavez" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Caroline Willis" />
-                <Line className="border-[0.2px] my-0" />
-                <CardUser avatar={PiUserCircleFill} name="Cole King" />
               </CarouselItem>
-              <CarouselItem>
+              {/* <CarouselItem>
                 <CardUser avatar={PiUserCircleFill} name="Josie Parks" />
                 <Line className="border-[0.2px] my-0" />
                 <CardUser avatar={PiUserCircleFill} name="Marc Allison" />
@@ -85,7 +111,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
                 <CardUser avatar={PiUserCircleFill} name="Alfred Hill" />
                 <Line className="border-[0.2px] my-0" />
                 <CardUser avatar={PiUserCircleFill} name="Rosie Conner" />
-              </CarouselItem>
+              </CarouselItem> */}
             </CarouselContent>
           </div>
         </div>

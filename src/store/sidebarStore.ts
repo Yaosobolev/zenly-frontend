@@ -7,8 +7,6 @@ type SidebarStore = {
   toggleSidebar: () => void;
 };
 
-//   const mobileWidth: boolean = onlyWidth < 768;
-
 const useSidebarStore = create<SidebarStore>()(
   devtools((set) => ({
     isCollapsed: false,

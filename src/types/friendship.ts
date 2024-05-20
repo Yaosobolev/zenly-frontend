@@ -1,15 +1,35 @@
 export type friendship = {
-  senderId: string;
-  receiverId: string;
+  request?: {
+    id: number;
+    username: string;
+    location?: unknown | null;
+  };
 };
 
-export type friendshipReauest = {
-  message: string;
-  requestId?: {
+export type friendshipRequest = {
+  // data?: {
+  id: number;
+  sender?: {
     id: number;
-    senderId: string;
-    receiverId: string;
-    status: string;
-    createdAt: string;
+    username: string;
   };
+  // };
+};
+// export type friendshipRequest = {
+//   data?: {
+//     id: number;
+//     sender: {
+//       id: number;
+//       username: string;
+//     };
+//   };
+// };
+
+export interface friendshipRequests {
+  data: friendshipRequest[] | null;
+}
+
+export type sendFriendshipRequest = {
+  receiverId: string;
+  senderId?: string;
 };
