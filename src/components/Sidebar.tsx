@@ -12,6 +12,7 @@ import useSidebarStore from "@/store/sidebarStore";
 import ShareButton from "./ui/shareButton";
 import Logout from "./ui/logout";
 import { TestInputFriend } from "./ui/TESTINPUTFRIEND";
+import Messages from "./Messages";
 
 const Sidebar = () => {
   const { isCollapsed, sidebarWidth, toggleSidebar } = useSidebarStore();
@@ -24,6 +25,7 @@ const Sidebar = () => {
       className={`flex flex-col justify-between fixed z-50 h-screen min-w-[100px] px-3 pb-10 pt-24 bg-slate-100/70 backdrop-blur-sm transition-all duration-700 ease-linear `}
       style={{ width: `${!mobileWidth ? sidebarWidth : 0}px` }}
     >
+      <Messages />
       {!mobileWidth && (
         <div className="absolute right-[-20px] top-7 z-20">
           <Button
