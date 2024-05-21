@@ -14,13 +14,19 @@ type CardUserProps = {
   avatar: IconType;
   // name: string;
   data: friendshipRequest;
+
+  onRequest: (id: number) => void;
 };
 
 type MutateFunction = {
   mutate: (id: number) => void;
 };
 
-const CardUser: React.FC<CardUserProps> = ({ avatar: Avatar, data }) => {
+const CardUser: React.FC<CardUserProps> = ({
+  avatar: Avatar,
+  data,
+  onRequest,
+}) => {
   const { isCollapsed } = useSidebarStore();
 
   const onlyWidth = useWindowWidth();
@@ -28,13 +34,12 @@ const CardUser: React.FC<CardUserProps> = ({ avatar: Avatar, data }) => {
 
   const acceptFriendRequestMutation = useAcceptFriendRequest();
   const rejectFriendRequestMutation = useRejectFriendRequest();
+  console.log(data.id);
 
   const onSubmit = (func: MutateFunction) => () => {
-    console.log(data.id);
+    onRequest(data.id);
     func.mutate(data.id);
   };
-
-  // const removeNotitfation = () => {};
 
   return (
     <div className="flex items-center justify-between w-full px-3 py-3 cursor-pointer">

@@ -25,17 +25,10 @@ export const TestInputFriend = () => {
   };
   const { receiverId } = data;
 
-  const handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     sendRequestToFriendMutation.mutate(data);
   };
-
-  // return () => {
-  //   connectToSocket(Number(userId)).disconnect();
-  //   console.log("disc");
-  // };
-
-  // console.log(res);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -45,7 +38,7 @@ export const TestInputFriend = () => {
         onChange={handleChange}
         type="text"
       />
-      <Button onClick={handleSubmit}></Button>
+      <Button type="submit"></Button>
       {/* <Button onClick={sendMessage}>Send Message</Button> */}
       <span className="text-3xl text-black"></span>
     </form>

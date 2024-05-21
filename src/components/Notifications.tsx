@@ -28,7 +28,11 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
   const { isLoading, data } = useGetFriendRequests(userIdString);
 
   const handleRequest = (data: { data: friendshipRequest }) => {
-    setRequests((prev) => prev.concat(data.data));
+    setRequests((prev) => [...prev, data.data]);
+  };
+
+  const removeRequest = (id: number) => {
+    setRequests((prev) => prev.filter((req) => req.id !== id));
   };
 
   useEffect(() => {
@@ -41,10 +45,13 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
     const socket = connectToSocket(Number(userId));
 
     socket.on("friend-requests", handleRequest);
+
     return () => {
       socket.off("friend-requests", handleRequest);
     };
   }, [connectToSocket]);
+
+  // setNotifications((prev) => prev.filter((n) => n.id !== id));
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -84,6 +91,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
                         avatar={PiUserCircleFill}
                         // name={request.sender.username}
                         data={request}
+                        onRequest={removeRequest}
                       />
                       <Line
                         className={
