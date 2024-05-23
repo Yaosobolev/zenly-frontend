@@ -31,8 +31,8 @@ const Friends: React.FC<FriendsProps> = ({ handleClose }) => {
           </Button>
         </motion.div>
         <div className="flex">
-          <div className="w-[250px] h-screen ">
-            <div className="pt-[70px]">
+          <div className="w-[250px] h-screen  border-r-2">
+            <div className="pt-[70px] px-2">
               <AddToFriendsInput />
               <UserList isFriends={isFriends} />
             </div>

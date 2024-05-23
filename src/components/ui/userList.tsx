@@ -19,6 +19,10 @@ const UserList: React.FC<UserListProps> = ({
 }) => {
   const [requests, setRequests] = useState<friendshipRequest[]>([]);
 
+  const [searchResults, setSearchResults] = React.useState<friendshipRequest[]>(
+    []
+  );
+
   const { userId } = useParams<{ userId: string }>();
   const userIdString: string = userId as string;
   const { isLoading, data } = useGetFriends(userIdString);
@@ -26,15 +30,18 @@ const UserList: React.FC<UserListProps> = ({
   const handleRequest = (data: { data: friendshipRequest }) => {
     console.log(data);
     setRequests((prev) => [...prev, data.data]);
+    setSearchResults((prev) => [...prev, data.data]);
   };
 
   const removeRequest = (id: number) => {
     setRequests((prev) => prev.filter((req) => req.id !== id));
+    setSearchResults((prev) => prev.filter((req) => req.id !== id));
   };
 
   useEffect(() => {
     if (data) {
       setRequests([...data]);
+      setSearchResults([...data]);
     }
   }, [data]);
 
@@ -56,33 +63,34 @@ const UserList: React.FC<UserListProps> = ({
     };
   }, [connectToSocket]);
 
-  //   if (isMessages) {
-  //     useEffect(() => {
-  //       if (data && searchValue && searchValue.trim() === "") {
-  //         setRequests(data);
-  //       } else {
-  //         const newFilteredData = data!.filter(
-  //           (item) =>
-  //             item.sender?.username
-  //               .toLowerCase()
-  //               .includes(searchValue.toLowerCase()) ||
-  //             (item.receiver &&
-  //               item.receiver.username
-  //                 .toLowerCase()
-  //                 .includes(searchValue.toLowerCase()))
-  //         );
-  //         setRequests(newFilteredData);
-  //       }
-  //     }, [searchValue, data]);
-  //   }
+  useEffect(() => {
+    if (isMessages && requests) {
+      if (searchValue!.trim() === "") {
+        setSearchResults(requests);
+        console.log("пусто", searchValue!.length);
+      } else {
+        const newFilteredData = requests.filter(
+          (item) =>
+            item.sender?.username
+              .toLowerCase()
+              .includes(searchValue!.toLowerCase()) ||
+            (item.receiver &&
+              item.receiver.username
+                .toLowerCase()
+                .includes(searchValue!.toLowerCase()))
+        );
+        setSearchResults(newFilteredData);
+      }
+    }
+  }, [searchValue, requests]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
   return (
     <div className="flex flex-col gap-2 px-1 mt-10 h-screen overflow-auto scroll-my-2">
-      {requests.length > 0 ? (
-        requests.map((request, index) => (
+      {searchResults.length > 0 ? (
+        searchResults.map((request, index) => (
           <div key={index} className="w-full">
             <CardUser
               avatar={PiUserCircleFill}
@@ -90,14 +98,7 @@ const UserList: React.FC<UserListProps> = ({
               isFriends={isFriends}
               isMessages={isMessages}
               onRequest={removeRequest}
-              //   onRequest={removeRequest}
             />
-
-            {/* <Line
-              className={
-                index < requests.length - 1 ? `border-[0.2px] my-0 ` : "hidden"
-              }
-            /> */}
           </div>
         ))
       ) : (

@@ -16,7 +16,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
     onSearchChange(event.target.value);
   };
   return (
-    <div className="relative">
+    <div className="relative px-2 w-full">
       <h2 className="text-xl text-center mb-2">Сообщения</h2>
       <Input
         placeholder="Поиск..."

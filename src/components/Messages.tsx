@@ -22,10 +22,6 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
     setSearchValue("");
   };
 
-  // const filteredData = data.filter((item) =>
-  //   item.toLowerCase().includes(searchValue.toLowerCase())
-  // );
-
   const isMessages = true;
 
   return (
@@ -34,7 +30,7 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
         initial={{ x: 300, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -300, opacity: 0 }}
-        className="h-screen w-[900px] -z-10 bg-slate-100/70 backdrop-blur-sm px-2"
+        className="h-screen w-[900px] -z-10 bg-slate-100/70 backdrop-blur-sm "
       >
         <motion.div
           whileHover={{ rotate: -90 }}
@@ -42,7 +38,6 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
           onClick={handleClose}
         >
           <Button
-            //   onClick={toggleSidebar}
             variant="secondary"
             className="h-auto p-4 rounded-full transition-all bg-white hover:bg-white"
           >
@@ -51,7 +46,7 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
         </motion.div>
         <div className="flex">
           <div className="w-[250px] h-screen border-r-2">
-            <div className="pt-[70px]">
+            <div className="pt-[70px] px-2">
               <SearchInput
                 onSearchChange={handleSearchChange}
                 clearSearch={clearSearch}
