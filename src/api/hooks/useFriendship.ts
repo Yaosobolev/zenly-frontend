@@ -2,16 +2,21 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { friendshipService } from "../services/friendshipService";
 import { friendshipRequest } from "@/types/friendship";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
+import { toast } from "sonner";
 
 export const useSendRequestToFriend = () => {
   const sendRequestToFriendMutation = useMutation({
     mutationFn: friendshipService.sendRequestToFriend,
     onSuccess: (res: AxiosResponse<friendshipRequest>) => {
       console.log(res.data);
+      toast.success(`Заявка отправлена`);
     },
     onError: (error: Error) => {
       console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(`${error.response?.data.message}`);
+      }
     },
   });
 
@@ -61,4 +66,21 @@ export const useRejectFriendRequest = () => {
   });
 
   return rejectFriendRequestdMutation;
+};
+
+export const useGetFriends = (userId: string) => {
+  const getFriendRequestsQueary = useQuery({
+    queryKey: ["getFriends"],
+    queryFn: async () => {
+      try {
+        const { data } = await friendshipService.getFriends(userId);
+        console.log(data);
+        return data.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  return getFriendRequestsQueary;
 };

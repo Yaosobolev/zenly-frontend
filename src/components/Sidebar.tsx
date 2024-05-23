@@ -11,60 +11,85 @@ import Notifications from "./Notifications";
 import useSidebarStore from "@/store/sidebarStore";
 import ShareButton from "./ui/shareButton";
 import Logout from "./ui/logout";
-import { TestInputFriend } from "./ui/TESTINPUTFRIEND";
 import Messages from "./Messages";
+import Friends from "./Friends";
+import { useState } from "react";
 
 const Sidebar = () => {
+  const [isFriendsVisible, setIsFriendsVisible] = useState(false);
+  const [isMessagesVisible, setIsMessagesVisible] = useState(false);
+
+  const handleToggleMessages = () => {
+    setIsMessagesVisible(true);
+    setIsFriendsVisible(false);
+  };
+
+  const handleToggleFriends = () => {
+    setIsFriendsVisible(true);
+    setIsMessagesVisible(false);
+  };
+
+  const handleClose = () => {
+    console.log("Close");
+    setIsFriendsVisible(false);
+    setIsMessagesVisible(false);
+  };
+
   const { isCollapsed, sidebarWidth, toggleSidebar } = useSidebarStore();
 
   const onlyWidth = useWindowWidth();
   const mobileWidth: boolean = onlyWidth < 768;
 
   return (
-    <div
-      className={`flex flex-col justify-between fixed z-50 h-screen min-w-[100px] px-3 pb-10 pt-24 bg-slate-100/70 backdrop-blur-sm transition-all duration-700 ease-linear `}
-      style={{ width: `${!mobileWidth ? sidebarWidth : 0}px` }}
-    >
-      <Messages />
-      {!mobileWidth && (
-        <div className="absolute right-[-20px] top-7 z-20">
-          <Button
-            onClick={toggleSidebar}
-            variant="secondary"
-            className="h-auto p-4 rounded-full transition-all bg-white hover:bg-white"
-          >
-            {isCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
-          </Button>
+    <div className="fixed z-10 flex flex-row gap-8 ">
+      <div
+        className={`flex flex-col justify-between   h-screen min-w-[100px] px-3 pb-10 pt-24 bg-slate-100/70 backdrop-blur-sm transition-all duration-700 ease-linear `}
+        style={{ width: `${!mobileWidth ? sidebarWidth : 0}px` }}
+      >
+        {!mobileWidth && (
+          <div className="absolute right-[-20px] top-7 z-20">
+            <Button
+              onClick={toggleSidebar}
+              variant="secondary"
+              className="h-auto p-4 rounded-full transition-all bg-white hover:bg-white"
+            >
+              {isCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
+            </Button>
+          </div>
+        )}
+        <div>
+          <Logo isCollapsed={mobileWidth ? true : isCollapsed} />
+          <Line />
+          <Nav
+            isCollapsed={mobileWidth ? true : isCollapsed}
+            links={[
+              {
+                title: "Сообщения",
+                toggle: handleToggleMessages,
+                isActive: isMessagesVisible,
+                icon: TbMessageCircle,
+                variant: "default",
+              },
+              {
+                title: "Друзья",
+                toggle: handleToggleFriends,
+                isActive: isFriendsVisible,
+                icon: PiUsersBold,
+                variant: "default",
+              },
+            ]}
+          />
+          <Line />
+          <Notifications isCollapsed={mobileWidth ? true : isCollapsed} />
         </div>
-      )}
-      <div>
-        <Logo isCollapsed={mobileWidth ? true : isCollapsed} />
-        <Line />
-        <Nav
-          isCollapsed={mobileWidth ? true : isCollapsed}
-          links={[
-            {
-              title: "Сообщения",
-              href: "/",
-              icon: TbMessageCircle,
-              variant: "default",
-            },
-            {
-              title: "Друзья",
-              href: "/",
-              icon: PiUsersBold,
-              variant: "default",
-            },
-          ]}
-        />
-        <Line />
-        <Notifications isCollapsed={mobileWidth ? true : isCollapsed} />
+        <div>
+          <ShareButton />
+          <Logout />
+        </div>
       </div>
-      <div>
-        <TestInputFriend />
-        <ShareButton />
-        <Logout />
-      </div>
+
+      {isFriendsVisible && <Friends handleClose={handleClose} />}
+      {isMessagesVisible && <Messages handleClose={handleClose} />}
     </div>
   );
 };

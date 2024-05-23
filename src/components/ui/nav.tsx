@@ -1,12 +1,10 @@
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
 
@@ -17,13 +15,18 @@ interface NavProps {
     label?: string;
     icon: IconType;
     variant: "default" | "ghost";
-    href: string;
+    toggle: () => void;
+    isActive: boolean;
+    // href: string;
   }[];
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
-  const pathName = "usePathname()";
+  // const pathName = "usePathname()";
   // const pathName = usePathname();
+
+  console.log(links[0]);
+  console.log(links[1]);
 
   const [showLinks, setShowLinks] = useState<boolean>(false);
 
@@ -41,45 +44,35 @@ export function Nav({ links, isCollapsed }: NavProps) {
     <TooltipProvider>
       <div
         data-collapsed={isCollapsed}
-        className="group flex flex-col gap-4 py-2 "
+        className="group flex flex-col gap-4 py-2 cursor-pointer"
       >
         <nav className="grid gap-1 px-2  group-[[data-collapsed=true]]:px-2 ">
           {links.map((link, index) =>
             isCollapsed ? (
               <Tooltip key={index} delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Link
-                    to={link.href}
-                    className={cn(
-                      buttonVariants({
-                        variant: link.href === pathName ? "default" : "nav",
-                        size: "sm",
-                      }),
-                      "justify-start"
-                    )}
+                  <div
+                    onClick={link.toggle}
+                    className="flex justify-start items-center h-9 rounded-md px-3 transition-all duration-300 opacity-50 hover:opacity-100"
                   >
                     <link.icon className="h-6 w-6 " color="" />
                     <span className="sr-only">{link.title}</span>
-                  </Link>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent
                   side="right"
-                  className=" bg-blue-500 text-white rounded-full "
+                  className=" bg-[#71c4ef] text-white rounded-full "
                 >
                   {link.title}
                 </TooltipContent>
               </Tooltip>
             ) : (
-              <Link
+              <div
                 key={index}
-                to={link.href}
-                className={cn(
-                  buttonVariants({
-                    variant: link.href === pathName ? "default" : "nav",
-                    size: "sm",
-                  }),
-                  "justify-start items-center "
-                )}
+                onClick={link.toggle}
+                className={`flex justify-start items-center h-9 rounded-md px-3 transition-all duration-300  hover:opacity-75 ${
+                  link.isActive ? "opacity-100" : "opacity-50"
+                }`}
               >
                 <link.icon className="mr-4 h-6 w-6" />
                 <span
@@ -90,7 +83,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 >
                   {link.title}
                 </span>
-              </Link>
+              </div>
+              // </Link>
             )
           )}
         </nav>

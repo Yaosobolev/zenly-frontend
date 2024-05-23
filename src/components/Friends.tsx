@@ -1,22 +1,22 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { AddToFriendsInput } from "./ui/addToFriendsInput";
-import UserList from "./ui/userList";
-import { Button } from "./ui/button";
-// import { FaRedoAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
+import { AddToFriendsInput } from "./ui/addToFriendsInput";
+import { Button } from "./ui/button";
+import UserList from "./ui/userList";
+import { motion, AnimatePresence } from "framer-motion";
 
-export type MessagesProps = {
+export type FriendsProps = {
   handleClose: () => void;
 };
 
-const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
+const Friends: React.FC<FriendsProps> = ({ handleClose }) => {
+  const isFriends = true;
   return (
     <AnimatePresence>
       <motion.div
         initial={{ x: 300, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -300, opacity: 0 }}
-        className="h-screen w-[900px] -z-10 bg-slate-100/70 backdrop-blur-sm px-2"
+        className="h-screen w-[250px] -z-10 bg-slate-100/70 backdrop-blur-sm "
       >
         <motion.div
           whileHover={{ rotate: -90 }}
@@ -24,7 +24,6 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
           onClick={handleClose}
         >
           <Button
-            //   onClick={toggleSidebar}
             variant="secondary"
             className="h-auto p-4 rounded-full transition-all bg-white hover:bg-white"
           >
@@ -35,7 +34,7 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
           <div className="w-[250px] h-screen border-r-2">
             <div className="pt-[70px]">
               <AddToFriendsInput />
-              <UserList />
+              <UserList isFriends={isFriends} />
             </div>
           </div>
           <div></div>
@@ -45,4 +44,4 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
   );
 };
 
-export default Messages;
+export default Friends;

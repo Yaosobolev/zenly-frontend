@@ -48,4 +48,13 @@ export const friendshipService = {
     );
     return response;
   },
+
+  getFriends: async (
+    userId: string
+  ): Promise<AxiosResponse<friendshipRequests>> => {
+    const response = await instance.get<friendshipRequests>(
+      `/friendship/friends/${userId}`
+    );
+    return response;
+  },
 };

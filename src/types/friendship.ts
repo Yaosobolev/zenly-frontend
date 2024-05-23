@@ -18,7 +18,8 @@ export type friendship = {
 
 export type friendshipRequest = {
   id: number;
-  sender: User;
+  sender?: User;
+  receiver?: User;
 };
 
 export interface friendshipRequests {

@@ -51,8 +51,6 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
     };
   }, [connectToSocket]);
 
-  // setNotifications((prev) => prev.filter((n) => n.id !== id));
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -81,6 +79,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
               <CarouselNext variant="nav" className="-translate-y-0" />
             </div>
           </div>
+          {/* //! еще вариант bg-slate-500/20 */}
           <div className={"bg-white rounded-2xl  h-full "}>
             <CarouselContent className="h-full">
               <CarouselItem>
@@ -89,14 +88,13 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
                     <div key={index} className="w-full ">
                       <CardUser
                         avatar={PiUserCircleFill}
-                        // name={request.sender.username}
                         data={request}
                         onRequest={removeRequest}
                       />
                       <Line
                         className={
                           index < requests.length - 1
-                            ? `border-[0.2px] my-0`
+                            ? `border-[0.2px] my-0 `
                             : "hidden"
                         }
                       />
@@ -104,7 +102,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
                   ))
                 ) : (
                   //! ДОБАВИТЬ НОРМ 404
-                  <div>Заявки не поступали </div>
+                  <div className="font-bold text-base py-4">Пусто </div>
                 )}
               </CarouselItem>
               {/* <CarouselItem>

@@ -15,7 +15,8 @@ type CardUserProps = {
   // name: string;
   data: friendshipRequest;
 
-  onRequest: (id: number) => void;
+  onRequest?: (id: number) => void;
+  isFriends?: boolean;
 };
 
 type MutateFunction = {
@@ -26,6 +27,7 @@ const CardUser: React.FC<CardUserProps> = ({
   avatar: Avatar,
   data,
   onRequest,
+  isFriends,
 }) => {
   const { isCollapsed } = useSidebarStore();
 
@@ -34,10 +36,9 @@ const CardUser: React.FC<CardUserProps> = ({
 
   const acceptFriendRequestMutation = useAcceptFriendRequest();
   const rejectFriendRequestMutation = useRejectFriendRequest();
-  console.log(data.id);
 
   const onSubmit = (func: MutateFunction) => () => {
-    onRequest(data.id);
+    onRequest!(data.id);
     func.mutate(data.id);
   };
 
@@ -47,33 +48,35 @@ const CardUser: React.FC<CardUserProps> = ({
         <Avatar className="size-8  min-w-8 " />
         <span
           className={
-            isCollapsed || mobileWidth
+            (isCollapsed || mobileWidth) && !isFriends
               ? "absolute right-48 opacity-0"
-              : "text-xs font-normal transition-all delay-500"
+              : "text-black text-sm font-bold  transition-all delay-500"
           }
         >
-          {data.sender.username}
+          {data.sender?.username || data.receiver?.username}
         </span>
       </div>
       <div
         className={
-          isCollapsed || mobileWidth
+          (isCollapsed || mobileWidth) && !isFriends
             ? "absolute right-[800px] opacity-0"
             : " flex gap-2  "
         }
       >
         <Button
           onClick={onSubmit(rejectFriendRequestMutation)}
-          className="p-2 bg-white-900 size-7 border rounded-full text-blue-500 hover:bg-gray-50"
+          className="p-2  size-7 border rounded-full transition-all duration-500  shadow-xl bg-white text-[#5AB2FF] hover:bg-white hover:opacity-60"
         >
           <FaTimes />
         </Button>
-        <Button
-          onClick={onSubmit(acceptFriendRequestMutation)}
-          className="p-2 bg-blue-500 size-7 rounded-full hover:bg-blue-600 "
-        >
-          <FaCheck />
-        </Button>
+        {!isFriends && (
+          <Button
+            onClick={onSubmit(acceptFriendRequestMutation)}
+            className="p-2 bg-[#5AB2FF] size-7 rounded-full  transition-all shadow-xl duration-500 opacity-100  hover:bg-[#5AB2FF] hover:opacity-60"
+          >
+            <FaCheck />
+          </Button>
+        )}
       </div>
     </div>
   );
