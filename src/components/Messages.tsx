@@ -4,12 +4,30 @@ import UserList from "./ui/userList";
 import { Button } from "./ui/button";
 // import { FaRedoAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
+import SearchInput from "./ui/searchInput";
+import { useState } from "react";
 
 export type MessagesProps = {
   handleClose: () => void;
 };
 
 const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearchChange = (value: string) => {
+    setSearchValue(value);
+  };
+
+  const clearSearch = () => {
+    setSearchValue("");
+  };
+
+  // const filteredData = data.filter((item) =>
+  //   item.toLowerCase().includes(searchValue.toLowerCase())
+  // );
+
+  const isMessages = true;
+
   return (
     <AnimatePresence>
       <motion.div
@@ -34,8 +52,12 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
         <div className="flex">
           <div className="w-[250px] h-screen border-r-2">
             <div className="pt-[70px]">
-              <AddToFriendsInput />
-              <UserList />
+              <SearchInput
+                onSearchChange={handleSearchChange}
+                clearSearch={clearSearch}
+                searchValue={searchValue}
+              />
+              <UserList isMessages={isMessages} searchValue={searchValue} />
             </div>
           </div>
           <div></div>

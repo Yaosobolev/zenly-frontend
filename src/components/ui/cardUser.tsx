@@ -12,11 +12,10 @@ import { friendshipRequest } from "@/types/friendship";
 
 type CardUserProps = {
   avatar: IconType;
-  // name: string;
   data: friendshipRequest;
-
   onRequest?: (id: number) => void;
   isFriends?: boolean;
+  isMessages?: boolean;
 };
 
 type MutateFunction = {
@@ -28,6 +27,7 @@ const CardUser: React.FC<CardUserProps> = ({
   data,
   onRequest,
   isFriends,
+  isMessages,
 }) => {
   const { isCollapsed } = useSidebarStore();
 
@@ -43,7 +43,12 @@ const CardUser: React.FC<CardUserProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between w-full px-3 py-3 cursor-pointer">
+    <div
+      className={`flex items-center justify-between w-full px-3 py-3 cursor-pointer ${
+        (isFriends || isMessages) &&
+        "bg-slate-500/10 shadow rounded-sm transition-all hover:opacity-60"
+      }`}
+    >
       <div className="flex items-center gap-2">
         <Avatar className="size-8  min-w-8 " />
         <span

@@ -45,7 +45,6 @@ export const AddToFriendsInput: React.FC = () => {
       senderId: userId || "",
     };
     sendRequestToFriendMutation.mutate(formDataWithUserId);
-    console.log(formDataWithUserId);
   }
 
   return (

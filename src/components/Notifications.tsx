@@ -55,7 +55,6 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
     return <div>Loading...</div>;
   }
 
-  console.log("requests", requests);
   return (
     <div className="max-h-64 ">
       <Carousel className="h-full relative">

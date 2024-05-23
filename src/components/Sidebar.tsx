@@ -30,7 +30,6 @@ const Sidebar = () => {
   };
 
   const handleClose = () => {
-    console.log("Close");
     setIsFriendsVisible(false);
     setIsMessagesVisible(false);
   };

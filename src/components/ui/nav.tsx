@@ -22,12 +22,6 @@ interface NavProps {
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
-  // const pathName = "usePathname()";
-  // const pathName = usePathname();
-
-  console.log(links[0]);
-  console.log(links[1]);
-
   const [showLinks, setShowLinks] = useState<boolean>(false);
 
   useEffect(() => {
