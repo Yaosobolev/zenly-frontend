@@ -47,7 +47,7 @@ export const Sidebar: React.FC = () => {
     <div className="fixed z-10 flex flex-row gap-8 ">
       <div
         className={`flex flex-col justify-between   h-screen min-w-[100px] px-3 pb-10 pt-24 bg-slate-100/70 backdrop-blur-sm transition-all duration-700 ease-linear `}
-        style={{ width: `${!mobileWidth ? sidebarWidth : 0}px` }}
+        style={{ width: `${!mobileWidth ? sidebarWidth : 100}px` }}
       >
         {!mobileWidth && (
           <div className="absolute right-[-20px] top-7 z-20">
