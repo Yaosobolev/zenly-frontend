@@ -13,6 +13,7 @@ import { useFriendStore } from "@/store/friendshipStore";
 import { friendshipRequest } from "@/types/friendship";
 
 import { Button } from "../";
+import clsx from "clsx";
 
 type CardUserProps = {
   avatar: IconType;
@@ -32,7 +33,8 @@ export const UserCard: React.FC<CardUserProps> = ({
   isMessages,
 }) => {
   const { isCollapsed } = useSidebarStore();
-  const { removeRequest, removeFriend } = useFriendStore();
+  const { removeRequest, removeFriend, setSelectedFriend, selectedFriend } =
+    useFriendStore();
 
   const onlyWidth = useWindowWidth();
   const mobileWidth: boolean = onlyWidth < 768;
@@ -50,12 +52,22 @@ export const UserCard: React.FC<CardUserProps> = ({
       func.mutate(data.id);
     };
 
+  const isSelected = selectedFriend?.id === data.id;
+  console.log("isSelected", isSelected);
+  console.log("selectedFriend?.id", selectedFriend?.id);
+  console.log("data.id", data.id);
+
   return (
     <div
-      className={`flex items-center justify-between w-full px-3 py-3 cursor-pointer ${
-        (isFriends || isMessages) &&
-        "bg-slate-500/10 shadow rounded-sm transition-all hover:opacity-60"
-      }`}
+      onClick={() => setSelectedFriend(data)}
+      className={clsx(
+        "flex items-center justify-between w-full px-3 py-3 cursor-pointer rounded-sm transition-all",
+        {
+          "bg-[#5AB2FF]": isMessages && isSelected,
+          "bg-slate-500/10 hover:opacity-60":
+            isFriends || (isMessages && !isSelected),
+        }
+      )}
     >
       <div className="flex items-center gap-2">
         <Avatar className="size-8  min-w-8 " />

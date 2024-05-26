@@ -14,6 +14,8 @@ interface FriendStore {
   setFriends: (friends: friendshipRequest[]) => void;
   addFriend: (friends: friendshipRequest) => void;
   removeFriend: (id: number) => void;
+  selectedFriend: friendshipRequest | null;
+  setSelectedFriend: (friend: friendshipRequest) => void;
 }
 
 export const useFriendStore = create<FriendStore>()(
@@ -37,5 +39,8 @@ export const useFriendStore = create<FriendStore>()(
       set((state) => ({
         friends: state.friends.filter((req) => req.id !== id),
       })),
+    selectedFriend: null,
+    setSelectedFriend: (friend: friendshipRequest) =>
+      set({ selectedFriend: friend }),
   }))
 );

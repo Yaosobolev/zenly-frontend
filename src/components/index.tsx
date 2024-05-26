@@ -24,3 +24,6 @@ export * from "./ui/addToFriendsInput";
 // form
 export * from "./form/LoginForm";
 export * from "./form/RegistrationForm";
+
+// messages
+export * from "./messages/MessagesBox";
