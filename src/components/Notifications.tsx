@@ -10,36 +10,27 @@ import { PiUserCircleFill } from "react-icons/pi";
 import CardUser from "./ui/cardUser";
 import Line from "./ui/line";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetFriendRequests } from "@/api/hooks/useFriendship";
 import { friendshipRequest } from "@/types/friendship";
 import { connectToSocket } from "@/api/config";
+import { useFriendStore } from "@/store/friendshipStore";
 
-interface NotificationsProps {
+type NotificationsProps = {
   isCollapsed: boolean;
-}
+};
 
 const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
-  const [requests, setRequests] = useState<friendshipRequest[]>([]);
-
   const { userId } = useParams<{ userId: string }>();
   const userIdString: string = userId as string;
-  const { isLoading, data } = useGetFriendRequests(userIdString);
+
+  const { isLoading } = useGetFriendRequests(userIdString);
+  const { requests, addRequest } = useFriendStore();
 
   const handleRequest = (data: { data: friendshipRequest }) => {
-    setRequests((prev) => [...prev, data.data]);
+    addRequest(data.data);
   };
-
-  const removeRequest = (id: number) => {
-    setRequests((prev) => prev.filter((req) => req.id !== id));
-  };
-
-  useEffect(() => {
-    if (data) {
-      setRequests([...data]);
-    }
-  }, [data]);
 
   useEffect(() => {
     const socket = connectToSocket(Number(userId));
@@ -85,11 +76,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
                 {requests.length > 0 ? (
                   requests.map((request, index) => (
                     <div key={index} className="w-full ">
-                      <CardUser
-                        avatar={PiUserCircleFill}
-                        data={request}
-                        onRequest={removeRequest}
-                      />
+                      <CardUser avatar={PiUserCircleFill} data={request} />
                       <Line
                         className={
                           index < requests.length - 1

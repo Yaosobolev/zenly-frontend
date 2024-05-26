@@ -1,20 +1,14 @@
 import { FaPlus } from "react-icons/fa";
 import { Input } from "./input";
+import { useFriendStore } from "@/store/friendshipStore";
 
-type SearchInputProps = {
-  onSearchChange: (value: string) => void;
-  clearSearch: () => void;
-  searchValue: string;
-};
+const SearchInput: React.FC = () => {
+  const { searchValue, setSearchValue, clearSearch } = useFriendStore();
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  onSearchChange,
-  clearSearch,
-  searchValue,
-}) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearchChange(event.target.value);
+    setSearchValue(event.target.value);
   };
+
   return (
     <div className="relative px-2 w-full">
       <h2 className="text-xl text-center mb-2">Сообщения</h2>
