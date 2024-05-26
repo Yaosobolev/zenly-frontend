@@ -1,8 +1,9 @@
-import { useLogout } from "@/api/hooks/useAuth";
-import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
 
-const Logout = () => {
+import { useLogout } from "@/api/hooks/useAuth";
+
+export const Logout = () => {
   const navigate = useNavigate();
   const logoutMutation = useLogout();
 
@@ -21,5 +22,3 @@ const Logout = () => {
     </div>
   );
 };
-
-export default Logout;

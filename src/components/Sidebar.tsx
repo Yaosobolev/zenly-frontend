@@ -1,21 +1,25 @@
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+import { useWindowWidth } from "@react-hook/window-size";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { PiUsersBold } from "react-icons/pi";
 import { TbMessageCircle } from "react-icons/tb";
 
-import { useWindowWidth } from "@react-hook/window-size";
-import { Nav } from "./ui/nav";
-import Logo from "./ui/logo";
-import Line from "./ui/line";
-import Notifications from "./Notifications";
 import useSidebarStore from "@/store/sidebarStore";
-import ShareButton from "./ui/shareButton";
-import Logout from "./ui/logout";
-import Messages from "./Messages";
-import Friends from "./Friends";
-import { useState } from "react";
 
-const Sidebar = () => {
+import {
+  Friends,
+  Messages,
+  Notifications,
+  Logout,
+  Line,
+  Logo,
+  ShareButton,
+  Nav,
+  Button,
+} from "./";
+
+export const Sidebar: React.FC = () => {
   const [isFriendsVisible, setIsFriendsVisible] = useState(false);
   const [isMessagesVisible, setIsMessagesVisible] = useState(false);
 
@@ -92,5 +96,3 @@ const Sidebar = () => {
     </div>
   );
 };
-
-export default Sidebar;

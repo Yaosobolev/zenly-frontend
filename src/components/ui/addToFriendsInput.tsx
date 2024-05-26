@@ -1,12 +1,10 @@
 // import { useState } from "react";
-import { Button } from "./button";
-import { useSendRequestToFriend } from "@/api/hooks/useFriendship";
-
 import { useParams } from "react-router-dom";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useSendRequestToFriend } from "@/api/hooks/useFriendship";
 
 import {
   Form,
@@ -15,7 +13,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Input, Button } from "../";
 
 const FormSchema = z.object({
   receiverId: z
@@ -78,39 +76,3 @@ export const AddToFriendsInput: React.FC = () => {
     </Form>
   );
 };
-// export const AddToFriendsInput: React.FC = () => {
-//   const sendRequestToFriendMutation = useSendRequestToFriend();
-
-//   const { userId } = useParams();
-
-//   const [data, setData] = useState<sendRequestToFriendData>({
-//     receiverId: "",
-//     senderId: "",
-//   });
-
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setData({
-//       receiverId: e.target.value,
-//       senderId: userId,
-//     });
-//   };
-//   const { receiverId } = data;
-
-//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     sendRequestToFriendMutation.mutate(data);
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input
-//         name="receiverId"
-//         value={receiverId}
-//         onChange={handleChange}
-//         type="text"
-//       />
-//       <Button type="submit"></Button>
-//       <span className="text-3xl text-black"></span>
-//     </form>
-//   );
-// };

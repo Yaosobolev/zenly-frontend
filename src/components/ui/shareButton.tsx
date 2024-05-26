@@ -1,4 +1,4 @@
-const ShareButton = () => {
+export const ShareButton: React.FC = () => {
   const handleShare = () => {
     if (navigator.share) {
       navigator
@@ -17,5 +17,3 @@ const ShareButton = () => {
 
   return <button onClick={handleShare}>Поделиться</button>;
 };
-
-export default ShareButton;

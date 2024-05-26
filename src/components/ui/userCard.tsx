@@ -1,15 +1,18 @@
+import { useWindowWidth } from "@react-hook/window-size";
+
 import { FaCheck } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
-import { Button } from "./button";
 import { IconType } from "react-icons/lib";
-import useSidebarStore from "@/store/sidebarStore";
-import { useWindowWidth } from "@react-hook/window-size";
+
 import {
   useAcceptFriendRequest,
   useRejectFriendRequest,
 } from "@/api/hooks/useFriendship";
-import { friendshipRequest } from "@/types/friendship";
+import useSidebarStore from "@/store/sidebarStore";
 import { useFriendStore } from "@/store/friendshipStore";
+import { friendshipRequest } from "@/types/friendship";
+
+import { Button } from "../";
 
 type CardUserProps = {
   avatar: IconType;
@@ -22,7 +25,7 @@ type MutateFunction = {
   mutate: (id: number) => void;
 };
 
-const CardUser: React.FC<CardUserProps> = ({
+export const UserCard: React.FC<CardUserProps> = ({
   avatar: Avatar,
   data,
   isFriends,
@@ -91,5 +94,3 @@ const CardUser: React.FC<CardUserProps> = ({
     </div>
   );
 };
-
-export default CardUser;

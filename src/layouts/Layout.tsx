@@ -1,6 +1,8 @@
-import Sidebar from "@/components/Sidebar";
 import React from "react";
+
 import { Toaster } from "sonner";
+
+import { Sidebar } from "@/components";
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (

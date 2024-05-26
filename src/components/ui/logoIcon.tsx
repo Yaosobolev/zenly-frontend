@@ -2,7 +2,7 @@ type logoIconProps = {
   color?: string;
 };
 
-const LogoIcon: React.FC<logoIconProps> = ({ color }) => {
+export const LogoIcon: React.FC<logoIconProps> = ({ color }) => {
   return (
     <>
       <svg
@@ -22,5 +22,3 @@ const LogoIcon: React.FC<logoIconProps> = ({ color }) => {
     </>
   );
 };
-
-export default LogoIcon;

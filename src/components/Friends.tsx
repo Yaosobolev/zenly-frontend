@@ -1,14 +1,13 @@
-import { FaPlus } from "react-icons/fa";
-import { AddToFriendsInput } from "./ui/addToFriendsInput";
-import { Button } from "./ui/button";
-import UserList from "./ui/userList";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaPlus } from "react-icons/fa";
+
+import { UserList, Button, AddToFriendsInput } from "./";
 
 export type FriendsProps = {
   handleClose: () => void;
 };
 
-const Friends: React.FC<FriendsProps> = ({ handleClose }) => {
+export const Friends: React.FC<FriendsProps> = ({ handleClose }) => {
   const isFriends = true;
   return (
     <AnimatePresence>
@@ -43,5 +42,3 @@ const Friends: React.FC<FriendsProps> = ({ handleClose }) => {
     </AnimatePresence>
   );
 };
-
-export default Friends;

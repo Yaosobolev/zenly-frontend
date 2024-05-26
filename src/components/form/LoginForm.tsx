@@ -37,7 +37,7 @@ const FormSchema = z.object({
   // }),
 });
 
-const LoginForm = () => {
+export const LoginForm: React.FC = () => {
   const [errorBackend, setErrorBackend] = useState<InputDataErrorState>({
     status: 0,
     message: "",
@@ -124,5 +124,3 @@ const LoginForm = () => {
     </Form>
   );
 };
-
-export default LoginForm;

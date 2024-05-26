@@ -1,12 +1,14 @@
+import { useEffect, useState } from "react";
+
 import { cn } from "@/lib/utils";
+import { IconType } from "react-icons/lib";
+
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { useEffect, useState } from "react";
-import { IconType } from "react-icons/lib";
 
 interface NavProps {
   isCollapsed: boolean;
@@ -17,7 +19,6 @@ interface NavProps {
     variant: "default" | "ghost";
     toggle: () => void;
     isActive: boolean;
-    // href: string;
   }[];
 }
 

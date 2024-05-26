@@ -1,11 +1,12 @@
 import React from "react";
-import LogoIcon from "./logoIcon";
+
+import { LogoIcon } from "../";
 
 type LogoProps = {
   isCollapsed: boolean;
 };
 
-const Logo: React.FC<LogoProps> = ({ isCollapsed }) => {
+export const Logo: React.FC<LogoProps> = ({ isCollapsed }) => {
   return (
     <div className="flex items-center justify-start pb-3">
       <div className="flex flex-row gap-4 items-center px-1 ">
@@ -24,5 +25,3 @@ const Logo: React.FC<LogoProps> = ({ isCollapsed }) => {
     </div>
   );
 };
-
-export default Logo;

@@ -49,7 +49,7 @@ const FormSchema = z
     message: "Пароли не совпадают.",
   });
 
-const RegistrationForm = () => {
+export const RegistrationForm: React.FC = () => {
   const [errorBackend, setErrorBackend] = useState<InputDataErrorState>({
     status: 0,
     message: "",
@@ -151,5 +151,3 @@ const RegistrationForm = () => {
     </Form>
   );
 };
-
-export default RegistrationForm;

@@ -1,8 +1,10 @@
 import { FaPlus } from "react-icons/fa";
-import { Input } from "./input";
+
 import { useFriendStore } from "@/store/friendshipStore";
 
-const SearchInput: React.FC = () => {
+import { Input } from "../";
+
+export const SearchInput: React.FC = () => {
   const { searchValue, setSearchValue, clearSearch } = useFriendStore();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,5 +30,3 @@ const SearchInput: React.FC = () => {
     </div>
   );
 };
-
-export default SearchInput;

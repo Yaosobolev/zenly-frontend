@@ -1,19 +1,24 @@
 import React, { useEffect, useMemo } from "react";
-import CardUser from "./cardUser";
-import { useGetFriends } from "@/api/hooks/useFriendship";
-import { friendshipRequest } from "@/types/friendship";
+
 import { useParams } from "react-router-dom";
 import { PiUserCircleFill } from "react-icons/pi";
+
 import { connectToSocket } from "@/api/config";
+import { useGetFriends } from "@/api/hooks/useFriendship";
 import { useFriendStore } from "@/store/friendshipStore";
+import { friendshipRequest } from "@/types/friendship";
+
+import { UserCard } from "../";
 
 export type UserListProps = {
   isFriends?: boolean;
   isMessages?: boolean;
-  searchValue?: string;
 };
 
-const UserList: React.FC<UserListProps> = ({ isFriends, isMessages }) => {
+export const UserList: React.FC<UserListProps> = ({
+  isFriends,
+  isMessages,
+}) => {
   const { friends, searchValue, addFriend, removeFriend } = useFriendStore();
 
   const [searchResults, setSearchResults] = React.useState<friendshipRequest[]>(
@@ -81,7 +86,7 @@ const UserList: React.FC<UserListProps> = ({ isFriends, isMessages }) => {
       {searchResults.length > 0 ? (
         searchResults.map((request, index) => (
           <div key={index} className="w-full">
-            <CardUser
+            <UserCard
               avatar={PiUserCircleFill}
               data={request}
               isFriends={isFriends}
@@ -96,5 +101,3 @@ const UserList: React.FC<UserListProps> = ({ isFriends, isMessages }) => {
     </div>
   );
 };
-
-export default UserList;

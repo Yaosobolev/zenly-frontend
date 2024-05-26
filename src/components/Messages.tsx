@@ -1,15 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
-import UserList from "./ui/userList";
-import { Button } from "./ui/button";
-// import { FaRedoAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
-import SearchInput from "./ui/searchInput";
+// import { FaRedoAlt } from "react-icons/fa";
+
+import { SearchInput, UserList, Button } from "./";
 
 export type MessagesProps = {
   handleClose: () => void;
 };
 
-const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
+export const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -43,5 +42,3 @@ const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
     </AnimatePresence>
   );
 };
-
-export default Messages;

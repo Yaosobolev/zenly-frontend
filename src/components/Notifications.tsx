@@ -1,3 +1,13 @@
+import { useEffect } from "react";
+
+import { useParams } from "react-router-dom";
+import { PiUserCircleFill } from "react-icons/pi";
+
+import { connectToSocket } from "@/api/config";
+import { useGetFriendRequests } from "@/api/hooks/useFriendship";
+import { useFriendStore } from "@/store/friendshipStore";
+import { friendshipRequest } from "@/types/friendship";
+
 import {
   Carousel,
   CarouselContent,
@@ -5,23 +15,16 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { PiUserCircleFill } from "react-icons/pi";
 
-import CardUser from "./ui/cardUser";
-import Line from "./ui/line";
-
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useGetFriendRequests } from "@/api/hooks/useFriendship";
-import { friendshipRequest } from "@/types/friendship";
-import { connectToSocket } from "@/api/config";
-import { useFriendStore } from "@/store/friendshipStore";
+import { Line, UserCard } from "./";
 
 type NotificationsProps = {
   isCollapsed: boolean;
 };
 
-const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
+export const Notifications: React.FC<NotificationsProps> = ({
+  isCollapsed,
+}) => {
   const { userId } = useParams<{ userId: string }>();
   const userIdString: string = userId as string;
 
@@ -76,7 +79,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
                 {requests.length > 0 ? (
                   requests.map((request, index) => (
                     <div key={index} className="w-full ">
-                      <CardUser avatar={PiUserCircleFill} data={request} />
+                      <UserCard avatar={PiUserCircleFill} data={request} />
                       <Line
                         className={
                           index < requests.length - 1
@@ -106,5 +109,3 @@ const Notifications: React.FC<NotificationsProps> = ({ isCollapsed }) => {
     </div>
   );
 };
-
-export default Notifications;
