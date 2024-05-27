@@ -4,7 +4,7 @@ import { MessageHeader, MessageInput, MessageContent } from "../";
 export const MessageBox: React.FC = () => {
   const selectedFriend = useFriendStore((state) => state.selectedFriend);
   return (
-    <div className="flex flex-col justify-between w-full border-l-2">
+    <div className="flex flex-col justify-between w-full border-l-2 h-screen">
       {selectedFriend ? (
         <>
           <MessageHeader selectedFriend={selectedFriend} />
