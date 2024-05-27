@@ -26,4 +26,5 @@ export * from "./form/LoginForm";
 export * from "./form/RegistrationForm";
 
 // messages
-export * from "./messages/MessagesBox";
+export * from "./messages/MessageBox";
+export * from "./messages/MessageHeader";

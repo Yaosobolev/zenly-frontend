@@ -1,18 +1,15 @@
 import { useFriendStore } from "@/store/friendshipStore";
+import { MessageHeader } from "../";
 
-export const MessagesBox: React.FC = () => {
+export const MessageBox: React.FC = () => {
   const selectedFriend = useFriendStore((state) => state.selectedFriend);
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex flex-col justify-between w-full ">
       {" "}
       {selectedFriend ? (
         <>
-          <div className="bg-white">
-            Header Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Doloremque totam deleniti tempora consequatur veritatis maiores
-            magnam omnis magni sit repudiandae voluptas, voluptatem blanditiis
-            accusantium qui veniam voluptates, enim autem porro.
-          </div>
+          <MessageHeader selectedFriend={selectedFriend} />
+
           <div>Content</div>
           <div>Input</div>
         </>

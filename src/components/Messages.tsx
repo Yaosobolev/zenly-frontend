@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaPlus } from "react-icons/fa";
 // import { FaRedoAlt } from "react-icons/fa";
 
-import { SearchInput, UserList, Button, MessagesBox } from "./";
+import { SearchInput, UserList, Button, MessageBox } from "./";
 
 export type MessagesProps = {
   handleClose: () => void;
@@ -38,7 +38,7 @@ export const Messages: React.FC<MessagesProps> = ({ handleClose }) => {
             </div>
           </div>
 
-          <MessagesBox />
+          <MessageBox />
         </div>
       </motion.div>
     </AnimatePresence>

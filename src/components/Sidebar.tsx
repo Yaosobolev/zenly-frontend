@@ -44,7 +44,7 @@ export const Sidebar: React.FC = () => {
   const mobileWidth: boolean = onlyWidth < 768;
 
   return (
-    <div className="fixed  z-10 flex flex-row gap-8 pr-10">
+    <div className="fixed w-full z-10 flex flex-row gap-8 pr-10">
       <div
         className={`flex flex-col justify-between  h-screen min-w-[100px] px-3 pb-10 pt-24 bg-slate-100/70 backdrop-blur-sm transition-all duration-700 ease-linear flex-none `}
         style={{ width: `${!mobileWidth ? sidebarWidth : 100}px` }}
