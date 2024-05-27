@@ -2,17 +2,38 @@ import { IoIosSend } from "react-icons/io";
 
 import { Input } from "../";
 import { useState } from "react";
+import { useSendMessage } from "@/api/hooks/useMessage";
+import { useParams } from "react-router-dom";
+import { friendshipRequest } from "@/types/friendship";
 
-export const MessageInput: React.FC = () => {
+type MessageInputProps = {
+  selectedFriend: friendshipRequest;
+};
+
+export const MessageInput: React.FC<MessageInputProps> = ({
+  selectedFriend,
+}) => {
   const [value, setValue] = useState<string>("");
+
+  const Receiver = selectedFriend.receiver?.id || selectedFriend.sender?.id;
+
+  const sendMessageMutation = useSendMessage();
+  const { userId } = useParams();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
+  console.log(selectedFriend);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setValue("");
+    sendMessageMutation.mutate({
+      senderId: Number(userId),
+      receiverId: Receiver!,
+      content: value,
+    });
   };
 
   console.log(value);

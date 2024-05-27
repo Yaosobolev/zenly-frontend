@@ -1,5 +1,6 @@
 export const MessageItem: React.FC = () => {
   const sender = true;
+
   return (
     <div
       className={`${
