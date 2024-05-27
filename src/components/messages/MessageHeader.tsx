@@ -10,9 +10,9 @@ export const MessageHeader: React.FC<MessageHeaderProps> = ({
   selectedFriend,
 }) => {
   return (
-    <div className=" border-b-2 pt-8 pb-1 flex items-center gap-x-2">
+    <div className=" border-b-2 pt-8 pb-2 flex items-center gap-x-2">
       <div>
-        <PiUserCircleFill className="size-16 min-w-8 " />
+        <PiUserCircleFill className="size-12 min-w-8 " />
       </div>
       <span className="text-black text-2xl">
         {selectedFriend.sender?.username || selectedFriend.receiver?.username}

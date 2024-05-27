@@ -1,24 +1,20 @@
 import { useFriendStore } from "@/store/friendshipStore";
-import { MessageHeader } from "../";
+import { MessageHeader, MessageInput, MessageContent } from "../";
 
 export const MessageBox: React.FC = () => {
   const selectedFriend = useFriendStore((state) => state.selectedFriend);
   return (
-    <div className="flex flex-col justify-between w-full ">
-      {" "}
+    <div className="flex flex-col justify-between w-full border-l-2">
       {selectedFriend ? (
         <>
           <MessageHeader selectedFriend={selectedFriend} />
-
-          <div>Content</div>
-          <div>Input</div>
+          <MessageContent />
+          <MessageInput />
         </>
       ) : (
         <>
           <span>Выбери, кому хотели бы написать</span>
         </>
-        // <div className="w-full ">
-        // </div>
       )}
     </div>
   );

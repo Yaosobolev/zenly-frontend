@@ -28,3 +28,5 @@ export * from "./form/RegistrationForm";
 // messages
 export * from "./messages/MessageBox";
 export * from "./messages/MessageHeader";
+export * from "./messages/MessageInput";
+export * from "./messages/MessageContent";

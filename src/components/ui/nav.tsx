@@ -48,7 +48,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 <TooltipTrigger asChild>
                   <div
                     onClick={link.toggle}
-                    className="flex justify-start items-center h-9 rounded-md px-3 transition-all duration-300 opacity-50 hover:opacity-100"
+                    className={`flex justify-start items-center h-9 rounded-md px-3 transition-all duration-300   ${
+                      link.isActive
+                        ? "opacity-100"
+                        : "opacity-50 hover:opacity-75"
+                    }`}
                   >
                     <link.icon className="h-6 w-6 " color="" />
                     <span className="sr-only">{link.title}</span>
@@ -65,8 +69,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
               <div
                 key={index}
                 onClick={link.toggle}
-                className={`flex justify-start items-center h-9 rounded-md px-3 transition-all duration-300  hover:opacity-75 ${
-                  link.isActive ? "opacity-100" : "opacity-50"
+                className={`flex justify-start items-center h-9 rounded-md px-3 transition-all duration-300   ${
+                  link.isActive ? "opacity-100" : "opacity-50 hover:opacity-75"
                 }`}
               >
                 <link.icon className="mr-4 h-6 w-6" />

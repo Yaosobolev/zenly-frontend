@@ -18,6 +18,7 @@ import {
   Nav,
   Button,
 } from "./";
+import clsx from "clsx";
 
 export const Sidebar: React.FC = () => {
   const [isFriendsVisible, setIsFriendsVisible] = useState(false);
@@ -42,9 +43,21 @@ export const Sidebar: React.FC = () => {
 
   const onlyWidth = useWindowWidth();
   const mobileWidth: boolean = onlyWidth < 768;
+  // !isFriendsVisible ? "w-full max-w-[1380px]" : "w-fit";
+
+  console.log(isFriendsVisible);
 
   return (
-    <div className="fixed w-full z-10 flex flex-row gap-8 pr-10">
+    <div
+      className={clsx(
+        "fixed  z-50 flex flex-row gap-8  pr-8 transition-all duration-700 ease-linear",
+        {
+          "w-full max-w-[1380px]": isMessagesVisible,
+          "w-full max-w-[1180px]": isMessagesVisible && isCollapsed,
+          "w-fit": !isMessagesVisible,
+        }
+      )}
+    >
       <div
         className={`flex flex-col justify-between  h-screen min-w-[100px] px-3 pb-10 pt-24 bg-slate-100/70 backdrop-blur-sm transition-all duration-700 ease-linear flex-none `}
         style={{ width: `${!mobileWidth ? sidebarWidth : 100}px` }}

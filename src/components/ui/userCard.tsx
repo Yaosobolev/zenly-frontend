@@ -53,9 +53,6 @@ export const UserCard: React.FC<CardUserProps> = ({
     };
 
   const isSelected = selectedFriend?.id === data.id;
-  console.log("isSelected", isSelected);
-  console.log("selectedFriend?.id", selectedFriend?.id);
-  console.log("data.id", data.id);
 
   return (
     <div
