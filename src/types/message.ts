@@ -7,13 +7,13 @@ export type Receiver = {
 };
 
 export interface Message {
-  id: number;
+  id?: number;
   content: string;
   senderId: number;
   receiverId: number;
-  createdAt: string;
-  sender: Sender;
-  receiver: Receiver;
+  createdAt?: string;
+  sender?: Sender;
+  receiver?: Receiver;
 }
 
 export interface Messages {

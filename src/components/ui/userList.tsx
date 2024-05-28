@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import { useParams } from "react-router-dom";
 import { PiUserCircleFill } from "react-icons/pi";
@@ -21,9 +21,9 @@ export const UserList: React.FC<UserListProps> = ({
 }) => {
   const { friends, searchValue, addFriend, removeFriend } = useFriendStore();
 
-  const [searchResults, setSearchResults] = React.useState<friendshipRequest[]>(
-    [...friends]
-  );
+  const [searchResults, setSearchResults] = useState<friendshipRequest[]>([
+    ...friends,
+  ]);
 
   const { userId } = useParams<{ userId: string }>();
   const userIdString: string = userId as string;

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useSendMessage } from "@/api/hooks/useMessage";
 import { useParams } from "react-router-dom";
 import { friendshipRequest } from "@/types/friendship";
+import { useMessageStore } from "@/store/messageStore";
 
 type MessageInputProps = {
   selectedFriend: friendshipRequest;
@@ -15,6 +16,8 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 }) => {
   const [value, setValue] = useState<string>("");
 
+  const { addMessage } = useMessageStore();
+
   const Receiver = selectedFriend.receiver?.id || selectedFriend.sender?.id;
 
   const sendMessageMutation = useSendMessage();
@@ -24,14 +27,17 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     setValue(e.target.value);
   };
 
+  const inputData = {
+    senderId: Number(userId),
+    receiverId: Receiver!,
+    content: value,
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setValue("");
-    sendMessageMutation.mutate({
-      senderId: Number(userId),
-      receiverId: Receiver!,
-      content: value,
-    });
+    sendMessageMutation.mutate(inputData);
+    addMessage(inputData);
   };
 
   return (

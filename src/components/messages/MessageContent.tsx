@@ -2,7 +2,7 @@ import { Message } from "@/types/message";
 import { MessageItem } from "../";
 
 type MessageContentProps = {
-  data?: Message[];
+  data: Message[];
   isLoading?: boolean;
   receiverId: number;
 };
@@ -13,8 +13,6 @@ export const MessageContent: React.FC<MessageContentProps> = ({
   receiverId,
 }) => {
   if (isLoading) return <div className="text-red text-6xl">Loading...</div>;
-
-  console.log("MessageContent", receiverId);
 
   return (
     <div className="flex flex-col justify-end px-3 space-y-3 h-full overflow-auto scroll-my-2 pb-4 mb-auto w-full">

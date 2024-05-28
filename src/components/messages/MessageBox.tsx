@@ -2,6 +2,9 @@ import { useFriendStore } from "@/store/friendshipStore";
 import { MessageHeader, MessageInput, MessageContent } from "../";
 import { useParams } from "react-router-dom";
 import { useGetMessages } from "@/api/hooks/useMessage";
+import { useMessageStore } from "@/store/messageStore";
+import { useEffect } from "react";
+import { connectToSocket } from "@/api/config";
 
 export const MessageBox: React.FC = () => {
   const selectedFriend = useFriendStore((state) => state.selectedFriend);
@@ -16,9 +19,23 @@ export const MessageBox: React.FC = () => {
     receiverId: receiverId,
   };
 
-  const { data, isLoading } = useGetMessages(messageData);
+  const messages = useMessageStore((state) => state.messages);
+  useGetMessages(messageData);
 
-  console.log("MessageBox", receiverId);
+  // const handleRequest = (data) => {
+  //   console.log(data);
+  // };
+  // useEffect(() => {
+  //   const socket = connectToSocket(Number(userId));
+
+  //   socket.on("new-messages", handleRequest);
+
+  //   return () => {
+  //     socket.off("new-messages");
+  //   };
+  // }, [connectToSocket, userId]);
+
+  console.log("рендер");
 
   return (
     <div className="flex flex-col justify-between w-full border-l-2 h-screen">
@@ -26,8 +43,8 @@ export const MessageBox: React.FC = () => {
         <>
           <MessageHeader selectedFriend={selectedFriend} />
           <MessageContent
-            isLoading={isLoading}
-            data={data!}
+            // isLoading={isLoading}
+            data={messages!}
             receiverId={receiverId}
           />
           <MessageInput selectedFriend={selectedFriend} />

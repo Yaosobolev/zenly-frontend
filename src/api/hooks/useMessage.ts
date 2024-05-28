@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { messageService } from "../services/messageService";
 import { AxiosResponse } from "axios";
 import { Message, SendMessageData } from "@/types/message";
+import { useMessageStore } from "@/store/messageStore";
 
 export const useSendMessage = () => {
   const sendMessageMutation = useMutation({
@@ -18,23 +19,26 @@ export const useSendMessage = () => {
 };
 
 export const useGetMessages = (messageData: SendMessageData) => {
-  const getMessagesQueary = useQuery({
+  const setMessages = useMessageStore((state) => state.setMessages);
+
+  const getMessagesQuery = useQuery({
     queryKey: [
-      "getMessagesQueary",
+      "getMessagesQuery",
       messageData.senderId,
       messageData.receiverId,
     ],
     queryFn: async () => {
       try {
         const { data } = await messageService.getMessage(messageData);
-        console.log(data);
+        setMessages(data.request);
         return data.request;
       } catch (error) {
         console.log(error);
+        return [];
       }
     },
     enabled: !!messageData.senderId && !!messageData.receiverId,
   });
 
-  return getMessagesQueary;
+  return getMessagesQuery;
 };

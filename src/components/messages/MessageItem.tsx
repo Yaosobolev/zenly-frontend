@@ -12,10 +12,6 @@ export const MessageItem: React.FC<MessageItemProps> = ({
 }) => {
   const receiver = receiverId === message.senderId;
 
-  receiverId;
-
-  console.log(message);
-  console.log(receiverId);
   return (
     <div
       className={clsx("relative px-3 py-4 rounded-2xl  w-fit max-w-[60%]", {
