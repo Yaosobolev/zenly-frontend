@@ -16,6 +16,10 @@ export interface Message {
   receiver: Receiver;
 }
 
+export interface Messages {
+  request: Message[] | [];
+}
+
 export type SendMessageData = {
   senderId: number;
   receiverId: number;

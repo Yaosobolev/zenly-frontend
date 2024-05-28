@@ -19,16 +19,21 @@ export const useSendMessage = () => {
 
 export const useGetMessages = (messageData: SendMessageData) => {
   const getMessagesQueary = useQuery({
-    queryKey: ["getMessagesQueary"],
+    queryKey: [
+      "getMessagesQueary",
+      messageData.senderId,
+      messageData.receiverId,
+    ],
     queryFn: async () => {
       try {
         const { data } = await messageService.getMessage(messageData);
         console.log(data);
-        return data;
+        return data.request;
       } catch (error) {
         console.log(error);
       }
     },
+    enabled: !!messageData.senderId && !!messageData.receiverId,
   });
 
   return getMessagesQueary;

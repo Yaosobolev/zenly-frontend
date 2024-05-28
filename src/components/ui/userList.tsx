@@ -58,7 +58,6 @@ export const UserList: React.FC<UserListProps> = ({
     if (isMessages && !friends) return [];
 
     if (searchValue.trim() === "" || !isMessages) {
-      console.log("пусто", searchValue.length);
       return friends;
     } else {
       const lowercasedSearchValue = searchValue.toLowerCase();

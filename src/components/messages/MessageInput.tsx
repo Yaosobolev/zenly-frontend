@@ -24,8 +24,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     setValue(e.target.value);
   };
 
-  console.log(selectedFriend);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setValue("");
@@ -35,8 +33,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       content: value,
     });
   };
-
-  console.log(value);
 
   return (
     <form onSubmit={handleSubmit}>

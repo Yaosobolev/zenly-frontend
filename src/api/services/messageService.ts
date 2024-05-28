@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import instance from "../config";
-import { Message, SendMessageData } from "@/types/message";
+import { Message, Messages, SendMessageData } from "@/types/message";
 
 export const messageService = {
   sendMessage: async (
@@ -17,8 +17,8 @@ export const messageService = {
   },
   getMessage: async (
     messageData: SendMessageData
-  ): Promise<AxiosResponse<Message[]>> => {
-    const response = await instance.get<Message[]>(
+  ): Promise<AxiosResponse<Messages>> => {
+    const response = await instance.get<Messages>(
       `/messages/${messageData.senderId}`,
       {
         params: {

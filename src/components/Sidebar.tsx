@@ -45,8 +45,6 @@ export const Sidebar: React.FC = () => {
   const mobileWidth: boolean = onlyWidth < 768;
   // !isFriendsVisible ? "w-full max-w-[1380px]" : "w-fit";
 
-  console.log(isFriendsVisible);
-
   return (
     <div
       className={clsx(

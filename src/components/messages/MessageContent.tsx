@@ -1,38 +1,34 @@
-import { useGetMessages } from "@/api/hooks/useMessage";
+import { Message } from "@/types/message";
 import { MessageItem } from "../";
-import { friendshipRequest } from "@/types/friendship";
-import { useParams } from "react-router-dom";
 
 type MessageContentProps = {
-  selectedFriend: friendshipRequest;
+  data?: Message[];
+  isLoading?: boolean;
+  receiverId: number;
 };
 
 export const MessageContent: React.FC<MessageContentProps> = ({
-  selectedFriend,
+  data,
+  isLoading,
+  receiverId,
 }) => {
-  const test = new Array<string>(1).fill("");
+  if (isLoading) return <div className="text-red text-6xl">Loading...</div>;
 
-  const Receiver = selectedFriend.receiver?.id || selectedFriend.sender?.id;
-  const receiverId: number = Receiver ?? 0;
-  const { userId } = useParams<{ userId: string }>();
-  const userIdNumber: number = Number(userId);
+  console.log("MessageContent", receiverId);
 
-  const messageData = {
-    senderId: userIdNumber,
-    receiverId: receiverId,
-  };
-
-  const { data } = useGetMessages(messageData);
-  console.log(data);
   return (
-    <div className="flex flex-col-reverse px-3 space-y-3 h-full overflow-auto scroll-my-2 pb-4 mb-auto w-full">
-      {test.map(() => {
-        return (
-          <div className="px-3 text-black" key={Math.random()}>
-            <MessageItem />
-          </div>
-        );
-      })}
+    <div className="flex flex-col justify-end px-3 space-y-3 h-full overflow-auto scroll-my-2 pb-4 mb-auto w-full">
+      {data && data.length > 0 ? (
+        data!.map((message, index) => {
+          return (
+            <div className="px-3 text-black" key={index}>
+              <MessageItem message={message} receiverId={receiverId} />
+            </div>
+          );
+        })
+      ) : (
+        <span>Здесь пока ничего нет...</span>
+      )}
     </div>
   );
 };
