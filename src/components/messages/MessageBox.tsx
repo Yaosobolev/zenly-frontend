@@ -5,6 +5,7 @@ import { useGetMessages } from "@/api/hooks/useMessage";
 import { useMessageStore } from "@/store/messageStore";
 import { useEffect } from "react";
 import { connectToSocket } from "@/api/config";
+import { Message } from "@/types/message";
 
 export const MessageBox: React.FC = () => {
   const selectedFriend = useFriendStore((state) => state.selectedFriend);
@@ -20,22 +21,22 @@ export const MessageBox: React.FC = () => {
   };
 
   const messages = useMessageStore((state) => state.messages);
+  const addMessage = useMessageStore((state) => state.addMessage);
   useGetMessages(messageData);
 
-  // const handleRequest = (data) => {
-  //   console.log(data);
-  // };
-  // useEffect(() => {
-  //   const socket = connectToSocket(Number(userId));
+  const handleRequest = (data: { data: Message }) => {
+    console.log(data.data);
+    addMessage(data.data);
+  };
+  useEffect(() => {
+    const socket = connectToSocket(Number(userId));
 
-  //   socket.on("new-messages", handleRequest);
+    socket.on("new-messages", handleRequest);
 
-  //   return () => {
-  //     socket.off("new-messages");
-  //   };
-  // }, [connectToSocket, userId]);
-
-  console.log("рендер");
+    return () => {
+      socket.off("new-messages");
+    };
+  }, [connectToSocket, userId]);
 
   return (
     <div className="flex flex-col justify-between w-full border-l-2 h-screen">
