@@ -25,7 +25,6 @@ export const MessageBox: React.FC = () => {
   useGetMessages(messageData);
 
   const handleRequest = (data: { data: Message }) => {
-    console.log(data.data);
     addMessage(data.data);
   };
   useEffect(() => {
