@@ -1,7 +1,10 @@
 export type User = {
   id: number;
   username: string;
-  location?: unknown | null;
+  location?: {
+    latitude: string;
+    longitude: string;
+  };
 };
 export type sendRequestToFriendData = {
   receiverId: string;
