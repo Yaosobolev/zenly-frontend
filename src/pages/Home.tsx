@@ -2,17 +2,25 @@ import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 import { useEffect, useState } from "react";
 import { connectToSocket } from "@/api/config";
 import { useParams } from "react-router-dom";
-import { useGeolocation } from "@/api/hooks/useGeolocation";
+import { useGeolocation, useGetLocations } from "@/api/hooks/useLocation";
 import { FriendLocation } from "@/types/location";
 import { friendshipRequest } from "@/types/friendship";
 
 const Home: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
+  const { data } = useGetLocations(userId!);
+  console.log(data);
 
   const position = useGeolocation();
   const [friendsLocations, setFriendsLocations] = useState<FriendLocation[]>(
     []
   );
+  useEffect(() => {
+    if (data && Array.isArray(data)) {
+      setFriendsLocations([...data]);
+    }
+  }, [data]);
+  console.log(friendsLocations);
 
   const handleRequest = (data: FriendLocation) => {
     console.log("гео-друга", data);
@@ -20,7 +28,7 @@ const Home: React.FC = () => {
 
     setFriendsLocations((prevLocations) => {
       const existingFriendIndex = prevLocations.findIndex(
-        (friend) => friend.data.id === data.data.id
+        (friend) => friend?.data?.id === data.data!.id
       );
       if (existingFriendIndex !== -1) {
         const updatedLocations = [...prevLocations];
