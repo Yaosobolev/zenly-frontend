@@ -14,9 +14,9 @@ import {
   Logout,
   Line,
   Logo,
-  ShareButton,
   Nav,
   Button,
+  ProfileCard,
 } from "./";
 import clsx from "clsx";
 
@@ -50,7 +50,7 @@ export const Sidebar: React.FC = () => {
       className={clsx(
         "fixed  z-50 flex flex-row gap-8  pr-8 transition-all duration-700 ease-linear",
         {
-          "w-full max-w-[1380px]": isMessagesVisible,
+          "w-full max-w-[1380px]": isMessagesVisible && !isCollapsed,
           "w-full max-w-[1180px]": isMessagesVisible && isCollapsed,
           "w-fit": !isMessagesVisible,
         }
@@ -97,7 +97,7 @@ export const Sidebar: React.FC = () => {
           <Notifications isCollapsed={mobileWidth ? true : isCollapsed} />
         </div>
         <div>
-          <ShareButton />
+          <ProfileCard isCollapsed={isCollapsed} />
           <Logout />
         </div>
       </div>

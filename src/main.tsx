@@ -13,8 +13,6 @@ import Layout from "./layouts/Layout.tsx";
 
 const queryClient = new QueryClient();
 
-// const socket = io.("")
-
 const router = createBrowserRouter([
   {
     path: "/",

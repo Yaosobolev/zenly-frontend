@@ -33,7 +33,6 @@ export const useGetFriendRequests = (userId: string) => {
       try {
         const { data } = await friendshipService.getFriendRequests(userId);
         setRequests(data.data);
-        console.log(data);
         return data.data;
       } catch (error) {
         console.log(error);
@@ -84,7 +83,6 @@ export const useGetFriends = (userId: string) => {
       try {
         const { data } = await friendshipService.getFriends(userId);
         setFriends(data.data);
-        console.log(data);
         return data.data;
       } catch (error) {
         console.log(error);

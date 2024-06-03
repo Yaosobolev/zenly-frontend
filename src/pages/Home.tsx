@@ -1,71 +1,27 @@
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { connectToSocket } from "@/api/config";
 import { useParams } from "react-router-dom";
-import { useGeolocation, useGetLocations } from "@/api/hooks/useLocation";
-import { FriendLocation } from "@/types/location";
+import {
+  useFriendsLocations,
+  useGeolocation,
+  useGetLocations,
+} from "@/api/hooks/useLocation";
 import { friendshipRequest } from "@/types/friendship";
 
 const Home: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const { data } = useGetLocations(userId!);
-  console.log(data);
-
   const position = useGeolocation();
-  const [friendsLocations, setFriendsLocations] = useState<FriendLocation[]>(
-    []
-  );
-  useEffect(() => {
-    if (data && Array.isArray(data)) {
-      setFriendsLocations([...data]);
-    }
-  }, [data]);
-  console.log(friendsLocations);
 
-  const handleRequest = (data: FriendLocation) => {
-    console.log("гео-друга", data);
-    console.log("тип гео-друга", typeof data);
-
-    setFriendsLocations((prevLocations) => {
-      const existingFriendIndex = prevLocations.findIndex(
-        (friend) => friend?.data?.id === data.data!.id
-      );
-      if (existingFriendIndex !== -1) {
-        const updatedLocations = [...prevLocations];
-        updatedLocations[existingFriendIndex] = data;
-        return updatedLocations;
-      } else {
-        return [...prevLocations, data];
-      }
-    });
-  };
-
-  const removeRequest = (id: number) => {
-    console.log(id);
-    setFriendsLocations((prev) => prev.filter((req) => req.data.id !== id));
-  };
-
-  const addRequest = (data: { data: friendshipRequest }) => {
-    const newFriend = data.data.sender || data.data.receiver;
-
-    const dataFriendLocation = {
-      data: {
-        latitude: newFriend!.location!.latitude,
-        longitude: newFriend!.location!.longitude,
-        usename: newFriend!.username,
-        id: newFriend!.id,
-      },
-    };
-    setFriendsLocations((prev) => [...prev, dataFriendLocation]);
-    console.log("new-geo-friend", data.data);
-  };
+  const { friendsLocations, handleRequest, removeRequest, addRequest } =
+    useFriendsLocations(data);
 
   useEffect(() => {
     const socket = connectToSocket(Number(userId));
 
     socket.on("friend-geo", handleRequest);
     socket.on("delete-geo-friend", (data: { data: friendshipRequest }) => {
-      console.log(data);
       removeRequest(data.data.sender?.id || data.data.receiver!.id);
     });
     socket.on("new-geo-friend", addRequest);

@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { locationService } from "../services/locationService";
 import { AxiosResponse } from "axios";
-import { SendFriendRequest } from "@/types/location";
+import { FriendLocation, SendFriendRequest } from "@/types/location";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { friendshipRequest } from "@/types/friendship";
 
 export const useSetLocationRequest = () => {
   const sendMessageMutation = useMutation({
@@ -30,8 +31,6 @@ export const useGeolocation = () => {
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
-        console.log("position", position);
-        // console.log("position", countRef.current);
         const coords = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -65,7 +64,6 @@ export const useGetLocations = (userId: string) => {
     queryFn: async () => {
       try {
         const { data } = await locationService.getLocationsRequest(userId);
-        console.log(data.request);
         return data.request;
       } catch (error) {
         console.log(error);
@@ -77,4 +75,53 @@ export const useGetLocations = (userId: string) => {
   });
 
   return getLocationsRequestsQueary;
+};
+
+export const useFriendsLocations = (initialData: FriendLocation[] = []) => {
+  const [friendsLocations, setFriendsLocations] =
+    useState<FriendLocation[]>(initialData);
+  useEffect(() => {
+    if (initialData && Array.isArray(initialData)) {
+      setFriendsLocations([...initialData]);
+    }
+  }, []);
+
+  const handleRequest = (data: FriendLocation) => {
+    setFriendsLocations((prevLocations) => {
+      const existingFriendIndex = prevLocations.findIndex(
+        (friend) => friend?.data?.id === data.data!.id
+      );
+      if (existingFriendIndex !== -1) {
+        const updatedLocations = [...prevLocations];
+        updatedLocations[existingFriendIndex] = data;
+        return updatedLocations;
+      } else {
+        return [...prevLocations, data];
+      }
+    });
+  };
+
+  const removeRequest = (id: number) => {
+    setFriendsLocations((prev) => prev.filter((req) => req.data.id !== id));
+  };
+
+  const addRequest = (data: { data: friendshipRequest }) => {
+    const newFriend = data.data.sender || data.data.receiver;
+
+    const dataFriendLocation = {
+      data: {
+        latitude: newFriend!.location!.latitude,
+        longitude: newFriend!.location!.longitude,
+        usename: newFriend!.username,
+        id: newFriend!.id,
+      },
+    };
+    setFriendsLocations((prev) => [...prev, dataFriendLocation]);
+  };
+  return {
+    friendsLocations,
+    handleRequest,
+    removeRequest,
+    addRequest,
+  };
 };

@@ -20,6 +20,7 @@ export * from "./ui/form";
 export * from "./ui/carousel";
 export * from "./ui/button";
 export * from "./ui/addToFriendsInput";
+export * from "./ui/profileCard";
 
 // form
 export * from "./form/LoginForm";

@@ -26,12 +26,10 @@ export type SendFriendRequest = {
 };
 
 export type FriendLocation = {
-  // request?: {
   data: {
     latitude: string;
     longitude: string;
     usename: string;
     id: number;
   };
-  // };
 };

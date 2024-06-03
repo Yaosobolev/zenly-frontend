@@ -16,8 +16,8 @@ export const MessageContent: React.FC<MessageContentProps> = ({
   if (isLoading) return <div className="text-red text-6xl">Loading...</div>;
 
   return (
-    <div className=" overflow-auto h-full px-3 pb-4">
-      <ScrollableFeed className="space-y-3 flex-grow flex flex-col ">
+    <div className=" overflow-auto h-full h-inherit px-3 pb-4">
+      <ScrollableFeed className="space-y-3 flex-grow h-inheri flex flex-col h-i">
         {data && data.length > 0 ? (
           data!.map((message, index) => {
             return (
@@ -27,7 +27,11 @@ export const MessageContent: React.FC<MessageContentProps> = ({
             );
           })
         ) : (
-          <span>Здесь пока ничего нет...</span>
+          <div className="h-full flex items-center justify-center ">
+            <span className="w-fit border rounded-full px-2 bg-slate-300">
+              Здесь пока ничего нет...
+            </span>
+          </div>
         )}
       </ScrollableFeed>
     </div>

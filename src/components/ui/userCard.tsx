@@ -85,12 +85,14 @@ export const UserCard: React.FC<CardUserProps> = ({
             : " flex gap-2  "
         }
       >
-        <Button
-          onClick={onSubmit(rejectFriendRequestMutation)}
-          className="p-2  size-7 border rounded-full transition-all duration-500  shadow-xl bg-white text-[#5AB2FF] hover:bg-white hover:opacity-60"
-        >
-          <FaTimes />
-        </Button>
+        {!isMessages && (
+          <Button
+            onClick={onSubmit(rejectFriendRequestMutation)}
+            className="p-2  size-7 border rounded-full transition-all duration-500  shadow-xl bg-white text-[#5AB2FF] hover:bg-white hover:opacity-60"
+          >
+            <FaTimes />
+          </Button>
+        )}
         {!isFriends && !isMessages && (
           <Button
             onClick={onSubmit(acceptFriendRequestMutation, false)}

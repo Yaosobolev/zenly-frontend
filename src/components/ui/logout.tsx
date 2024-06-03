@@ -15,7 +15,7 @@ export const Logout = () => {
   return (
     <div
       onClick={logout}
-      className="flex justify-center items-center cursor-pointer h-fit opacity-50 transition-all hover:opacity-100"
+      className="flex justify-start items-center cursor-pointer h-fit opacity-50 transition-all hover:opacity-100 px-4 mt-2"
     >
       <MdLogout className="size-6 opacity-50 font-black " />
       <span>Выход</span>

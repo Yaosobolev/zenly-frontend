@@ -50,9 +50,11 @@ export const MessageBox: React.FC = () => {
           <MessageInput selectedFriend={selectedFriend} />
         </>
       ) : (
-        <>
-          <span>Выбери, кому хотели бы написать</span>
-        </>
+        <div className="h-full flex items-center justify-center ">
+          <span className="w-fit border rounded-full px-2 bg-slate-300">
+            Выбери, кому хотели бы написать
+          </span>
+        </div>
       )}
     </div>
   );
